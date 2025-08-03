@@ -1,0 +1,24 @@
+{
+  "exclude": ["node_modules", "./shared/ascii", "dist"],
+  "include": ["cli", "shared", "scripts"],
+  "compilerOptions": {
+    "lib": ["esnext"],
+    "types": ["jest", "node"],
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "noEmit": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+     "paths": {
+      "@cli/*": ["./cli/*"], 
+      "@scripts/*": ["./scripts/*"], 
+      "@shared/*": ["./shared/*"],
+    }
+  },
+}

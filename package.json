@@ -1,0 +1,118 @@
+{
+  "name": "@donedeal0/codefather",
+  "version": "1.0.0",
+  "description": "Codefather protects your codebase by controlling who can change what. Set authorization levels, lock down files, and enforce your rules—offline via CLI or online with GitHub Actions.",
+  "license": "ISC",
+  "author": "DoneDeal0",
+  "files": ["dist"],
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+  "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/shared/models/index.d.ts",
+      "import": "./dist/cli/index.js",
+      "require": "./dist/cli/index.cjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoneDeal0/codefather"
+  },
+  "bugs": {
+    "url": "https://github.com/DoneDeal0/codefather/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/DoneDeal0"
+  },
+  "readme": "./README.md",
+  "type": "module",
+  "declaration": true,
+  "keywords": [
+    "codeowners",
+    "github",
+    "github-action",
+    "action",
+    "file-protection",
+    "protection",
+    "file protection",
+    "reviewers",
+    "pull-request",
+    "pull request",
+    "cli",
+    "git",
+    "pre-commit",
+    "access-control",
+    "access control",
+    "code-review",
+    "code review",
+    "repository-management",
+    "codeowner-approval",
+    "rules-based",
+    "reviewer-assignement",
+    "repository-rules",
+    "repository rules",
+    "repository",
+    "management",
+    "developer-tools",
+    "developer tool",
+    "open-source",
+    "workflow",
+    "automation",
+    "security",
+    "team",
+    "team-management",
+    "team management",
+    "mafia",
+    "codefather",
+    "godfather",
+    "authorization"
+  ],
+  "bin": {
+    "codefather": "./dist/index.js",
+    "codefather-github": "./dist/scripts/github.js",
+    "codefather-init": "./dist/scripts/init.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "codefather-github": "npm run build && node dist/scripts/github.js",
+    "codefather-init": "npm run build && node dist/scripts/init.js",
+    "codefather": "npm run build && node dist/index.js",
+    "format": "npx prettier . --write",
+    "lint:dead-code": "npx -p typescript@latest -p knip knip",
+    "lint": "eslint --cache --max-warnings=0 --fix",
+    "prepare": "husky",
+    "test": "jest",
+    "tsc": "tsc --noEmit --incremental"
+  },
+  "dependencies": {
+    "@actions/github": "^6.0.1",
+    "@octokit/rest": "^22.0.0",
+    "tsx": "^4.20.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/types": "^19.8.1",
+    "@eslint/js": "^9.32.0",
+    "@semantic-release/github": "^11.0.3",
+    "@semantic-release/npm": "^12.0.2",
+    "@swc/core": "^1.13.3",
+    "@swc/jest": "^0.2.39",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.1.0",
+    "eslint": "^9.32.0",
+    "husky": "^9.1.7",
+    "jest": "^30.0.5",
+    "prettier": "^3.6.2",
+    "swc-loader": "^0.2.6",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.0",
+    "typescript-eslint": "^8.38.0",
+    "typescript": "^5.8.3"
+  }
+}

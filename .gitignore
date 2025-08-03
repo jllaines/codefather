@@ -1,0 +1,7 @@
+/node_modules
+dist
+.eslintcache
+tsconfig.tsbuildinfo
+.DS_Store
+codefather.ts
+codefather.json
