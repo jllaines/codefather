@@ -12,7 +12,7 @@
 
 Codefather protects your codebase by controlling who can change what. Set authorization levels, lock down files, and enforce your rules—offline via CLI or online with GitHub Actions.
 
-ℹ️ The documentation is also available on our [website](https://codefather.gitbook.io/codefather)!
+ℹ️ The documentation is also available on our [website](https://donedeal0.gitbook.io/codefather/)!
 
 <hr/>
 
