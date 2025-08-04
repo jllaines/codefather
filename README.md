@@ -1,4 +1,4 @@
-<img width="1003" height="377" alt="banner" src="https://github.com/user-attachments/assets/11727e52-2a17-463e-8137-da12879ae2a8" />
+<img width="1003" height="377" alt="banner" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/banner_cjwgin.png" />
 
 
 [![CI](https://github.com/DoneDeal0/codefather/actions/workflows/ci.yml/badge.svg)](https://github.com/DoneDeal0/codefather/actions/workflows/ci.yml)
@@ -31,13 +31,17 @@ Codefather protects your codebase by controlling who can change what. Set author
 
 ## SCREENSHOTS
 
-<img width="305" height="254" alt="success" src="https://github.com/user-attachments/assets/1393b262-aae3-49b3-9c5c-c2500b78cf59" />
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
 
-<img width="305" height="254" alt="info" src="https://github.com/user-attachments/assets/a936b888-0a7b-4899-be65-5dfd2f2bbfe3" />
+<img width="305" height="254" alt="success" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/success_fojaed.png" />
 
-<img width="305" height="254" alt="error" src="https://github.com/user-attachments/assets/3d797cc6-524e-4a7b-bb63-98ee91606a38" />
+<img width="305" height="254" alt="info" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/info_gchx1t.png" />
 
-<img width="305" height="254" alt="warning" src="https://github.com/user-attachments/assets/53251ab3-37b6-4cb8-b460-2ce9ccb04a59" />
+<img width="305" height="254" alt="error" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334055/error_mk5fem.png" />
+
+<img width="305" height="254" alt="warning" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/warning_xvf5c8.png" />
+
+</div>
 
 
 ## INSTALLATION
@@ -62,6 +66,21 @@ codefather-init -- --json
 
 # similar to the `codefather` command, but works in a Github Action environment
 codefather-github
+```
+
+You can either add a script shortcut in your `package.json` (recommended):
+
+```json
+"scripts": {
+  "codefather": "codefather",
+}
+```
+
+Or directly run the commands with `npx`:
+
+```bash
+npx codefather
+npx codefather-init
 ```
 
 ## CONFIG
@@ -271,7 +290,7 @@ Premium support is also available. https://github.com/sponsors/DoneDeal0
 
 <br/>
 <a href="https://github.com/sponsors/DoneDeal0" target="_blank">
-<img width="999" height="371" alt="sponsor" src="https://github.com/user-attachments/assets/85a007a4-e37a-4fc0-b158-3e89b9d8ec25" />
+<img width="999" height="371" alt="sponsor" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/respect_wjtqm6.png" />
 </a>
 <br/>
 
