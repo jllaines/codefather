@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { writeFileSync, unlinkSync } from "fs";
+import { resolve } from "path";
 import { showDonAscii } from "@shared/ascii/don";
 import { validateFiles } from "@shared/file-validator";
 import { loadConfig } from "@shared/loader";
@@ -203,6 +205,34 @@ describe("runGithubCheck", () => {
     });
     (validateFiles as jest.Mock).mockReturnValue(defaultResults);
     await runGithubCheck();
+    expect(assignReviewersMock).not.toHaveBeenCalled();
+  });
+
+  test("doesn't assign reviewers if there is a codeowner file", async () => {
+    process.env.CI = "true";
+    process.env.GITHUB_TOKEN = "token";
+    const codeOwnersPath = resolve(process.cwd(), "./.github/CODEOWNERS");
+    console.log("written in", codeOwnersPath);
+    writeFileSync(
+      codeOwnersPath,
+      `
+      /src/core @corleone/caporegimes
+      /src/models @tomhagen @solozzo
+      `
+    );
+    (loadConfig as jest.Mock).mockResolvedValue({
+      caporegimes: [],
+      rules: [],
+      options: { showAscii: false },
+      codeReviews: {
+        autoAssignGoodfellas: true,
+        autoAssignCaporegimes: true,
+      },
+    });
+
+    (validateFiles as jest.Mock).mockReturnValue(defaultResults);
+    await runGithubCheck();
+    unlinkSync(codeOwnersPath);
     expect(assignReviewersMock).not.toHaveBeenCalled();
   });
 

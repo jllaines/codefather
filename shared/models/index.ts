@@ -39,9 +39,9 @@ export interface CodefatherConfig {
   /** Options to auto assign reviewers on Github */
   codeReviews?: {
     /** If true, goodfellas responsible for modified files will be assigned on relevant pull requests, except the committers. Defaults to true. */
-    autoAssignGoodfellas: boolean;
+    autoAssignGoodfellas?: boolean;
     /** If true, caporegimes will be assigned on every pull request except the committers. Defaults to false. */
-    autoAssignCaporegimes: boolean;
+    autoAssignCaporegimes?: boolean;
   };
   /** Group users in teams. The crews names and composition are free in cli mode, but should match your github teams if used in a github action */
   crews?: Record<CrewName, GitUser[]>;

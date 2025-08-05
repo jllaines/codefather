@@ -10,23 +10,35 @@
 
 # WHAT IS IT?
 
-Codefather protects your codebase by controlling who can change what. Set authorization levels, lock down files, and enforce your rules—offline via CLI or online with GitHub Actions.
+**Codefather protects your codebase by controlling who can change what. Set authorization levels, lock down files, and enforce your rules—offline via CLI or online with GitHub Actions.**
 
 ℹ️ The documentation is also available on our [website](https://donedeal0.gitbook.io/codefather/)!
 
 <hr/>
 
-## FEATURES
+## CODEOWNERS COMPARISON
+
+**Codefather** can serve as a drop-in replacement for GitHub’s CODEOWNERS—or play alongside it like a trusted consigliere.
+
+GitHub’s CODEOWNERS lets you define file owners in your codebase and automatically assign them as reviewers. No pull request can be merged until an appropriate codeowner has approved it.
+
+**Codefather** offers more flexibility in assigning codeowners: support for various roles (teams, leads, developers), complex file-match rules, local execution, commit protection, and more. It can prevent unauthorized changes, warn developers, list prohibited files with error levels and contact points, block sensitive merges via GitHub Actions, and auto-assign reviewers when needed.
+
+We’ve designed **Codefather** for a delightful developer experience—a single config file for both CLI and GitHub Action usage, efficient commands to protect your codebase, automatic translation of CODEOWNERS into Codefather config, and over 100 personalized reactions to your commits. Whether you trespass the rules, flirt with the limits, or honor the codebase like a true professional, Codefather responds with style.
+
+**Whether you’re enforcing strict governance or just want the Don watching over your commits, Codefather brings clarity, control, and charisma to your workflow.**
 
 | FEATURE  | CODEFATHER | GITHUB CODEOWNERS |
 |--|--|--|
 |Files and folders protection | ✅ | ✅ |
 |Github Action  | ✅ | ✅ |
 |Auto-assign reviewers  | ✅ | ✅ |
-|Supports teams | ✅ | ✅ |
+|Teams support | ✅ | ✅ |
 |CLI + pre-commit | ✅ | ❌ |
 |Roles hierarchy | ✅ | ❌ |
-|Custom messages  | ✅ | ❌ |
+|Personalized feedbacks | ✅ | ❌ |
+|Customizable config  | ✅ | ❌ |
+|Commit blockage | ✅ | ❌ |
 |Godfather vibe  | ✅ | ❌ |
 
 ## SCREENSHOTS
@@ -52,23 +64,28 @@ npm install @donedeal0/codefather --save-dev
 
 ## USAGE
 
-**Codefather** has 4 commands:
+**Codefather** has 3 commands:
 
 ```bash
 # checks if your access rules are respected in your repository
 codefather 
+```
 
+```bash
 # creates a default config.ts at the root of your repository and add a `codefather` command to your package.json
 codefather-init 
+```
 
-# creates a default config.json at the root of your repository and add a `codefather` command to your package.json
-codefather-init -- --json
+`codefather-init` accepts two flags: 
+  - `--json`, to generate a `codefather.json` file
+  - `--overwrite` to overwrite an existing codefather config.
 
+```bash
 # similar to the `codefather` command, but works in a Github Action environment
 codefather-github
 ```
 
-You can either add a script shortcut in your `package.json` (recommended):
+You can either add a script shortcut in your `package.json`:
 
 ```json
 "scripts": {
@@ -265,7 +282,7 @@ To enforce reviews from codeowners (goodfellas, caporegimes and crews), consider
 
 # GLOSSARY
 
-Codefather uses the Godfather's lingo. Although you don't need to know it to use the library, here are the definition of the special words used in the config file:
+**Codefather** uses the Godfather's lingo. Although you don't need to know it to use the library, here are the definition of the special words used in the config file:
 
 - `caporegime`: a captain who leads a group of mafia members. It's a tech-lead.
 - `goodfella`: an appellation for a mobster (like "wise-guy" or "made man"). It's a developer.
