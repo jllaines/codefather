@@ -13,9 +13,9 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/shared/models/index.d.ts",
-      "import": "./dist/cli/index.js",
-      "require": "./dist/cli/index.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "repository": {
