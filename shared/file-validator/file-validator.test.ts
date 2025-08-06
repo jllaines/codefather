@@ -16,14 +16,14 @@ describe("validateFiles", () => {
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [{ emailPrefix: "johnny.fontane" }],
+          goodfellas: [{ name: "oldblueeyes" }],
         },
       ],
     };
     expect(
       validateFiles(
         [resolve(cwd, "src/core/index.ts")],
-        [{ name: "oldblueeyes", emailPrefix: "johnny.fontane" }],
+        [{ name: "oldblueeyes" }],
         config
       )
     ).toEqual({ errors: [], warnings: [] });
@@ -34,14 +34,14 @@ describe("validateFiles", () => {
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [{ name: "oldblueeyes" }, { name: "@tomhagen" }],
+          goodfellas: [{ name: "oldblueeyes" }, { name: "tomhagen" }],
         },
       ],
     };
     expect(
       validateFiles(
         [resolve(cwd, "src/core/index.ts")],
-        [{ name: "oldblueeyes" }, { name: "@tomhagen" }],
+        [{ name: "oldblueeyes" }, { name: "tomhagen" }],
         config
       )
     ).toEqual({ errors: [], warnings: [] });
@@ -53,7 +53,7 @@ describe("validateFiles", () => {
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [{ name: "oldblueeyes", emailPrefix: "johnny.fontane" }],
+          goodfellas: [{ name: "oldblueeyes" }],
         },
       ],
     };
@@ -91,18 +91,18 @@ describe("validateFiles", () => {
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [{ name: "oldblueeyes", emailPrefix: "johnny.fontane" }],
+          goodfellas: [{ name: "oldblueeyes" }],
           crews: ["clemenzaPeople"],
         },
       ],
       crews: {
-        clemenzaPeople: [{ name: "@paulieGatto" }, { name: "@lucabrasi" }],
+        clemenzaPeople: [{ name: "paulieGatto" }, { name: "lucabrasi" }],
       },
     };
     expect(
       validateFiles(
         [resolve(cwd, "src/core/index.ts")],
-        [{ name: "@paulieGatto" }],
+        [{ name: "paulieGatto" }],
         config
       )
     ).toEqual({ errors: [], warnings: [] });
@@ -115,14 +115,14 @@ describe("validateFiles", () => {
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [{ emailPrefix: "johnny.fontane" }],
+          goodfellas: [{ name: "oldblueeyes" }],
         },
       ],
     };
 
     const result = validateFiles(
       [resolve(cwd, "src/core/index.ts")],
-      [{ name: "@tomhagen" }],
+      [{ name: "tomhagen" }],
       config
     );
 
@@ -144,7 +144,7 @@ describe("validateFiles", () => {
     };
     const result = validateFiles(
       [resolve(cwd, "src/core/index.ts")],
-      [{ name: "oldblueeyes" }, { name: "@tomhagen" }],
+      [{ name: "oldblueeyes" }, { name: "tomhagen" }],
       config
     );
     expect(result.errors.length).toBe(1);
@@ -167,7 +167,7 @@ describe("validateFiles", () => {
 
     const result = validateFiles(
       [resolve(cwd, "src/core/index.ts")],
-      [{ name: "@tomhagen" }, { name: "solozzo" }],
+      [{ name: "tomhagen" }, { name: "solozzo" }],
       config
     );
     expect(result.errors.length).toBe(1);
@@ -182,7 +182,7 @@ describe("validateFiles", () => {
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [{ emailPrefix: "johnny.fontane" }],
+          goodfellas: [{ name: "oldblueeyes" }],
           allowForgiveness: true,
         },
       ],
@@ -190,7 +190,7 @@ describe("validateFiles", () => {
 
     const result = validateFiles(
       [resolve(cwd, "src/core/index.ts")],
-      [{ name: "@tomhagen" }],
+      [{ name: "tomhagen" }],
       config
     );
     expect(result.errors.length).toBe(0);
@@ -213,7 +213,7 @@ describe("validateFiles", () => {
 
     const result = validateFiles(
       [resolve(cwd, "src/core/index.ts")],
-      [{ name: "@tomhagen" }, { name: "mike" }],
+      [{ name: "tomhagen" }, { name: "mike" }],
       config
     );
     expect(result.errors.length).toBe(0);
@@ -228,20 +228,20 @@ describe("validateFiles", () => {
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [{ emailPrefix: "johnny.fontane" }],
+          goodfellas: [{ name: "oldblueeyes" }],
           allowForgiveness: true,
           crews: ["tessioTeam"],
         },
       ],
       crews: {
-        clemenzaPeople: [{ name: "@paulieGatto" }, { name: "@lucabrasi" }],
+        clemenzaPeople: [{ name: "paulieGatto" }, { name: "lucabrasi" }],
         tessioTeam: [{ name: "salvatore" }],
       },
     };
 
     const result = validateFiles(
       [resolve(cwd, "src/core/index.ts")],
-      [{ name: "@paulieGatto" }],
+      [{ name: "paulieGatto" }],
       config
     );
     expect(result.errors.length).toBe(0);
@@ -254,7 +254,7 @@ describe("validateFiles", () => {
       rules: [
         {
           match: [/index\.ts$/],
-          goodfellas: [{ emailPrefix: "johnny.fontane" }],
+          goodfellas: [{ name: "oldblueeyes" }],
           message: "Don't touch that!",
         },
       ],
@@ -262,7 +262,7 @@ describe("validateFiles", () => {
 
     const result = validateFiles(
       [resolve(cwd, "weird/nested/path/index.ts")],
-      [{ name: "@tomhagen" }],
+      [{ name: "tomhagen" }],
       config
     );
     expect(result.errors.length).toBe(1);
@@ -274,12 +274,12 @@ describe("validateFiles", () => {
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [{ emailPrefix: "johnny.fontane" }],
+          goodfellas: [{ name: "oldblueeyes" }],
           message: "Don't touch that!",
         },
         {
           match: ["*.env", "config/**", "src/utils/helpers.ts"],
-          goodfellas: [{ emailPrefix: "tom.woltz" }],
+          goodfellas: [{ name: "tom.woltz" }],
           message: "Don't even think about it.",
         },
       ],
@@ -292,7 +292,7 @@ describe("validateFiles", () => {
       resolve(cwd, "src/utils/helpers.ts"),
     ];
 
-    const result = validateFiles(files, [{ emailPrefix: "tom.hagen" }], config);
+    const result = validateFiles(files, [{ name: "tomhagen" }], config);
     expect(result.errors).toHaveLength(2); // 3 unauthorized changes are spotted, but 2 rules are broken
     expect(result.errors[0]).toContain("Don't touch that!");
     expect(result.errors[1]).toContain("Don't even think about it.");
@@ -304,7 +304,7 @@ describe("validateFiles", () => {
     expect(
       validateFiles(
         [resolve(cwd, "src/core/index.ts")],
-        [{ emailPrefix: "tom.hagen" }],
+        [{ name: "tomhagen" }],
         config
       )
     ).toStrictEqual({ errors: [], warnings: [] });
@@ -327,7 +327,7 @@ describe("validateFiles", () => {
           resolve(cwd, "project/src/models/index.ts"),
           resolve(cwd, "project/.env"),
         ],
-        [{ name: "@tomhagen" }],
+        [{ name: "tomhagen" }],
         config
       )
     ).toStrictEqual({ errors: [], warnings: [] });

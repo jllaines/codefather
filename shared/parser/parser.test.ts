@@ -6,12 +6,12 @@ const config: CodefatherConfig = {
   rules: [
     {
       match: ["src/core/**"],
-      goodfellas: [{ name: "oldblueeyes", emailPrefix: "johnny.fontane" }],
+      goodfellas: [{ name: "oldblueeyes" }],
       crews: ["clemenzaPeople"],
     },
   ],
   crews: {
-    clemenzaPeople: [{ name: "@paulieGatto" }, { name: "@lucabrasi" }],
+    clemenzaPeople: [{ name: "paulieGatto" }, { name: "lucabrasi" }],
   },
 };
 

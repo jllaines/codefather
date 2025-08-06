@@ -9,20 +9,17 @@ describe("getRandomMessage", () => {
   describe("Success MessageType", () => {
     it("returns a success message with a committer", () => {
       const msg = getRandomMessage(MessageType.Success, {
-        committers: [{ name: "oldblueeyes", emailPrefix: "johnny.fontane" }],
+        committers: [{ name: "oldblueeyes" }],
       });
       expect(msg).toBe("✓ Thank you oldblueeyes. You respected the codebase.");
     });
 
     it("returns a success message with committers", () => {
       const msg = getRandomMessage(MessageType.Success, {
-        committers: [
-          { name: "oldblueeyes", emailPrefix: "johnny.fontane" },
-          { name: "@tomhagen", emailPrefix: "tom.hagen" },
-        ],
+        committers: [{ name: "oldblueeyes" }, { name: "tomhagen" }],
       });
       expect(msg).toBe(
-        "✓ Thank you oldblueeyes and @tomhagen. You respected the codebase."
+        "✓ Thank you oldblueeyes and tomhagen. You respected the codebase."
       );
     });
 
@@ -33,8 +30,8 @@ describe("getRandomMessage", () => {
 
     it("doesn't inject goodfellas in the message", () => {
       const msg = getRandomMessage(MessageType.Success, {
-        goodfellas: [{ name: "solozzo" }, { name: "@lucabrasi" }],
-        committers: [{ name: "oldblueeyes", emailPrefix: "johnny.fontane" }],
+        goodfellas: [{ name: "solozzo" }, { name: "lucabrasi" }],
+        committers: [{ name: "oldblueeyes" }],
       });
       expect(msg).toBe("✓ Thank you oldblueeyes. You respected the codebase.");
     });
@@ -54,10 +51,10 @@ describe("getRandomMessage", () => {
     it("returns an error message with committers and one goodfella", () => {
       const msg = getRandomMessage(MessageType.Error, {
         goodfellas: [{ name: "solozzo" }],
-        committers: [{ name: "sonny" }, { name: "@tomhagen" }],
+        committers: [{ name: "sonny" }, { name: "tomhagen" }],
       });
       expect(msg).toBe(
-        "𐄂 sonny and @tomhagen! You need permission from my trusted associate: solozzo. Nobody touches this without approval."
+        "𐄂 sonny and tomhagen! You need permission from my trusted associate: solozzo. Nobody touches this without approval."
       );
     });
 
@@ -66,12 +63,12 @@ describe("getRandomMessage", () => {
         goodfellas: [
           { name: "solozzo" },
           { name: "mike" },
-          { emailPrefix: "johnny.fontane" },
+          { name: "johnny.fontane" },
         ],
-        committers: [{ name: "sonny" }, { name: "@tomhagen" }],
+        committers: [{ name: "sonny" }, { name: "tomhagen" }],
       });
       expect(msg).toBe(
-        "𐄂 sonny and @tomhagen! You need permission from my trusted associates: solozzo, mike, or johnny.fontane. Nobody touches this without approval."
+        "𐄂 sonny and tomhagen! You need permission from my trusted associates: solozzo, mike, or johnny.fontane. Nobody touches this without approval."
       );
     });
 
@@ -80,7 +77,7 @@ describe("getRandomMessage", () => {
         goodfellas: [
           { name: "solozzo" },
           { name: "mike" },
-          { emailPrefix: "johnny.fontane" },
+          { name: "johnny.fontane" },
         ],
         committers: [{ name: "sonny" }],
       });
@@ -101,10 +98,10 @@ describe("getRandomMessage", () => {
     it("returns a warning message with one committer and one goodfella", () => {
       const msg = getRandomMessage(MessageType.Warning, {
         committers: [{ name: "solozzo" }],
-        goodfellas: [{ name: "@tomhagen" }],
+        goodfellas: [{ name: "tomhagen" }],
       });
       expect(msg).toBe(
-        "⚠ solozzo: You ain't made, but we’ll let it slide this time. Get @tomhagen to vouch for ya."
+        "⚠ solozzo: You ain't made, but we’ll let it slide this time. Get tomhagen to vouch for ya."
       );
     });
 
@@ -115,10 +112,10 @@ describe("getRandomMessage", () => {
           { name: "oldblueeyes" },
           { name: "mike" },
         ],
-        goodfellas: [{ name: "@tomhagen" }],
+        goodfellas: [{ name: "tomhagen" }],
       });
       expect(msg).toBe(
-        "⚠ solozzo, oldblueeyes, and mike: You ain't made, but we’ll let it slide this time. Get @tomhagen to vouch for ya."
+        "⚠ solozzo, oldblueeyes, and mike: You ain't made, but we’ll let it slide this time. Get tomhagen to vouch for ya."
       );
     });
 
@@ -129,10 +126,10 @@ describe("getRandomMessage", () => {
           { name: "oldblueeyes" },
           { name: "mike" },
         ],
-        goodfellas: [{ name: "@tomhagen" }, { name: "@lucabrasi" }],
+        goodfellas: [{ name: "tomhagen" }, { name: "lucabrasi" }],
       });
       expect(msg).toBe(
-        "⚠ solozzo, oldblueeyes, and mike: You ain't made, but we’ll let it slide this time. Get @tomhagen or @lucabrasi to vouch for ya."
+        "⚠ solozzo, oldblueeyes, and mike: You ain't made, but we’ll let it slide this time. Get tomhagen or lucabrasi to vouch for ya."
       );
     });
 
@@ -147,10 +144,10 @@ describe("getRandomMessage", () => {
 
     it("returns a warning message with no committer and one goodfellas", () => {
       const msg = getRandomMessage(MessageType.Warning, {
-        goodfellas: [{ name: "@lucabrasi" }],
+        goodfellas: [{ name: "lucabrasi" }],
       });
       expect(msg).toBe(
-        "⚠ Committer: You ain't made, but we’ll let it slide this time. Get @lucabrasi to vouch for ya."
+        "⚠ Committer: You ain't made, but we’ll let it slide this time. Get lucabrasi to vouch for ya."
       );
     });
 
@@ -190,7 +187,7 @@ describe("getRandomMessage", () => {
 
     it("doesn't inject goodfella or committers", () => {
       const msg = getRandomMessage(MessageType.NotFound, {
-        goodfellas: [{ name: "oldblueeyes" }, { name: "@lucabrasi" }],
+        goodfellas: [{ name: "oldblueeyes" }, { name: "lucabrasi" }],
         committers: [{ name: "mile" }],
       });
       expect(msg).toBe(
@@ -207,7 +204,7 @@ describe("getRandomMessage", () => {
 
     it("doesn't inject goodfella or committers", () => {
       const msg = getRandomMessage(MessageType.NoGitConfig, {
-        goodfellas: [{ name: "oldblueeyes" }, { name: "@lucabrasi" }],
+        goodfellas: [{ name: "oldblueeyes" }, { name: "lucabrasi" }],
         committers: [{ name: "mile" }],
       });
       expect(msg).toBe("𐄂 You don't have a git config... Are you a cop?");
@@ -235,17 +232,17 @@ describe("getRandomMessage", () => {
           { name: "solozzo" },
           { name: "solozzo" },
           { name: "oldblueeyes" },
-          { emailPrefix: "michael.corleone" },
-          { emailPrefix: "michael.corleone" },
+          { name: "michael.corleone" },
+          { name: "michael.corleone" },
         ],
         goodfellas: [
-          { name: "@tomhagen" },
-          { name: "@lucabrasi" },
-          { name: "@tomhagen" },
+          { name: "tomhagen" },
+          { name: "lucabrasi" },
+          { name: "tomhagen" },
         ],
       });
       expect(msg).toBe(
-        "⚠ solozzo, oldblueeyes, and michael.corleone: You ain't made, but we’ll let it slide this time. Get @tomhagen or @lucabrasi to vouch for ya."
+        "⚠ solozzo, oldblueeyes, and michael.corleone: You ain't made, but we’ll let it slide this time. Get tomhagen or lucabrasi to vouch for ya."
       );
     });
   });

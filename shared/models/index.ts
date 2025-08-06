@@ -1,6 +1,5 @@
 export type GitUser = {
   name?: string;
-  emailPrefix?: string;
 };
 
 export type CrewName = string;
@@ -8,10 +7,7 @@ export type CrewName = string;
 export interface CodefatherRule {
   /** List of the files or folders that can only be modified by a given list of users */
   match: Array<RegExp | string>;
-  /** List of users authorized to modify the list of files or folders.
-   * name: github username.
-   * emailPrefix: prefix of the user email tied to their Github account (e.g. johnny.fontane@jazz.com should be johnny.fontane) .
-   */
+  /** List of users authorized to modify the list of files or folders. */
   goodfellas: GitUser[];
   /** List of authorized user crews. The crews must be defined at the root of your config when used in CLI mode. */
   crews?: CrewName[];
@@ -22,10 +18,7 @@ export interface CodefatherRule {
 }
 
 export interface CodefatherConfig {
-  /** List of users authorized to modify any files in your repository.
-   * name: github username.
-   * emailPrefix: prefix of the user email tied to their Github account (e.g. johnny.fontane@jazz.com should be johnny.fontane) .
-   */
+  /** List of users authorized to modify any files in your repository. */
   caporegimes?: GitUser[];
   /** Rules that apply to protected files and folders */
   rules: CodefatherRule[];

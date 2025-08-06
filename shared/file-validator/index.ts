@@ -13,12 +13,8 @@ function areCommittersIncluded(
   committers: GitUser[]
 ): boolean {
   if (!authorizedUsers?.length) return false;
-  return committers.every(({ name, emailPrefix }) =>
-    authorizedUsers.some(
-      (user) =>
-        (name && user.name === name) ||
-        (emailPrefix && user.emailPrefix === emailPrefix)
-    )
+  return committers.every(({ name }) =>
+    authorizedUsers.some((user) => name && user.name === name)
   );
 }
 
@@ -27,12 +23,7 @@ function getUnauthorizedCommitters(
   committers: GitUser[]
 ): GitUser[] {
   return committers.filter(
-    ({ name, emailPrefix }) =>
-      !authorizedUsers.some(
-        (user) =>
-          (name && user.name === name) ||
-          (emailPrefix && user.emailPrefix === emailPrefix)
-      )
+    ({ name }) => !authorizedUsers.some((user) => name && user.name === name)
   );
 }
 

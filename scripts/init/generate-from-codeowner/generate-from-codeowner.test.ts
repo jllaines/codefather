@@ -33,35 +33,32 @@ tsconfig.json @corleone/tessioTeam
         autoAssignGoodfellas: true,
       },
       crews: {
-        "@corleone/clemenzaPeople": [],
-        "@corleone/tessioTeam": [],
+        clemenzaPeople: [],
+        tessioTeam: [],
       },
       rules: [
         {
           match: ["turbo.json", "/.github/", "**/package.json"],
           goodfellas: [],
-          crews: ["@corleone/clemenzaPeople"],
+          crews: ["clemenzaPeople"],
         },
         {
           match: ["tsconfig.json"],
           goodfellas: [],
-          crews: ["@corleone/tessioTeam"],
+          crews: ["tessioTeam"],
         },
         {
           match: ["/apps/gambling/"],
-          goodfellas: [{ name: "@mike" }, { name: "@tomhagen" }],
-          crews: ["@corleone/clemenzaPeople"],
+          goodfellas: [{ name: "mike" }, { name: "tomhagen" }],
+          crews: ["clemenzaPeople"],
         },
         {
           match: ["/apps/protection"],
-          goodfellas: [{ name: "@oldblueeyes" }, { name: "@tomhagen" }],
+          goodfellas: [{ name: "oldblueeyes" }, { name: "tomhagen" }],
         },
       ],
     });
-    expect(crews).toStrictEqual([
-      "@corleone/clemenzaPeople",
-      "@corleone/tessioTeam",
-    ]);
+    expect(crews).toStrictEqual(["clemenzaPeople", "tessioTeam"]);
   });
   it("return a codefather config from a codeowner file without crews", async () => {
     (fs.promises.readFile as jest.Mock).mockReturnValue(`
@@ -83,11 +80,11 @@ tsconfig.json @corleone/tessioTeam
       rules: [
         {
           match: ["/apps/gambling/"],
-          goodfellas: [{ name: "@mike" }, { name: "@tomhagen" }],
+          goodfellas: [{ name: "mike" }, { name: "tomhagen" }],
         },
         {
           match: ["/apps/protection"],
-          goodfellas: [{ name: "@oldblueeyes" }, { name: "@tomhagen" }],
+          goodfellas: [{ name: "oldblueeyes" }, { name: "tomhagen" }],
         },
       ],
       crews: {},

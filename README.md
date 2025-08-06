@@ -24,9 +24,9 @@ GitHub’s CODEOWNERS lets you define file owners in your codebase and automatic
 
 **Codefather** offers more flexibility in assigning codeowners: support for various roles (teams, leads, developers), complex file-match rules, local execution, commit protection, and more. It can prevent unauthorized changes, warn developers, list prohibited files with error levels and contact points, block sensitive merges via GitHub Actions, and auto-assign reviewers when needed.
 
-We’ve designed **Codefather** for a delightful developer experience—a single config file for both CLI and GitHub Action usage, efficient commands to protect your codebase, automatic translation of CODEOWNERS into Codefather config, and over 100 personalized reactions to your commits. Whether you trespass the rules, flirt with the limits, or honor the codebase like a true professional, Codefather responds with style.
+**Codefather** is designed to offer a delightful developer experience—a single config file for both CLI and GitHub Action usage, efficient commands to protect your codebase, automatic translation of CODEOWNERS into Codefather config, and over 100 personalized reactions to your commits. 
 
-**Whether you’re enforcing strict governance or just want the Don watching over your commits, Codefather brings clarity, control, and charisma to your workflow.**
+**Whether you're enforcing strict governance or just want the Don watching over your commits, Codefather brings clarity, control, and charisma to your workflow.**
 
 | FEATURE  | CODEFATHER | GITHUB CODEOWNERS |
 |--|--|--|
@@ -66,24 +66,13 @@ npm install @donedeal0/codefather --save-dev
 
 **Codefather** has 3 commands:
 
-```bash
-# checks if your access rules are respected in your repository
-codefather 
-```
-
-```bash
-# creates a default config.ts at the root of your repository and add a `codefather` command to your package.json
-codefather-init 
-```
-
-`codefather-init` accepts two flags: 
-  - `--json`, to generate a `codefather.json` file
-  - `--overwrite` to overwrite an existing codefather config.
-
-```bash
-# similar to the `codefather` command, but works in a Github Action environment
-codefather-github
-```
+- `codefather`: checks if your access rules are respected in your repository
+- `codefather-init`: creates a default config at the root of your repository and add a `codefather` command to your package.json. 
+  - If you have a `.github/CODEOWNERS` file, it will be used to create the config.
+  - It accepts two flags: 
+    - `--json`, to generate a json config file
+    - `--overwrite` to overwrite an existing codefather config.
+- `codefather-github`: similar to the `codefather` command, but designed to run in a GitHub Action environment
 
 You can either add a script shortcut in your `package.json`:
 
@@ -108,26 +97,17 @@ At the root of your repository, add a `codefather.ts` or `codefather.json` file.
 import type { CodefatherConfig } from "@donedeal0/codefather";
 
 export default {
-  caporegimes: [
-    { name: "solozzo" },
-    { name: "@lucabrasi", emailPrefix: "luca.brasi" },
-  ],
+  caporegimes: [{ name: "solozzo" }, { name: "lucabrasi" }],
   rules: [
     {
       match: ["package.json", "src/core/**", /^src\/app\/.*\.css$/],
-      goodfellas: [
-        { name: "solozzo" },
-        { name: "@tomhagen", emailPrefix: "tom.hagen" },
-      ],
+      goodfellas: [{ name: "solozzo" }, { name: "tomhagen" }],
       crews: ["clemenzaPeople"],
       allowForgiveness: false,
     },
     {
       match: ["src/models/**"],
-      goodfellas: [
-        { name: "mike", emailPrefix: "michael.corleone" },
-        { name: "sonny", emailPrefix: "sonny" },
-      ],
+      goodfellas: [{ name: "mike" }, { name: "sonny" }],
       allowForgiveness: true,
       message: "Custom message to tell you to NOT TOUCH THE MODELS!",
     },
@@ -141,7 +121,7 @@ export default {
     autoAssignCaporegimes: true,
   },
   crews: {
-    clemenzaPeople: [{ name: "@paulieGatto" }, { name: "@lucabrasi" }],
+    clemenzaPeople: [{ name: "paulieGatto" }, { name: "lucabrasi" }],
   },
 } satisfies CodefatherConfig;
 ```
@@ -152,11 +132,8 @@ export default {
 
 ```ts
 type CodefatherConfig {
-  /** List of users authorized to modify any files in your repository.
-   * name: github username.
-   * emailPrefix: prefix of the user email tied to their Github account (e.g. johnny.fontane@jazz.com should be johnny.fontane).
-   */
-  caporegimes?: GitUser[];
+  /** List of users authorized to modify any files in your repository. */
+  caporegimes?: {name: string}[];
   /** Rules that apply to protected files and folders */
   rules: CodefatherRule[];
   /** Options to refine the output */
@@ -174,7 +151,7 @@ type CodefatherConfig {
     autoAssignCaporegimes: boolean;
   };
   /** Group users into teams. Crew names and composition are flexible in CLI mode but should match your github teams if used in a Github Action */
-  crews?: Record<CrewName, GitUser[]>;
+  crews?: Record<string, {name: string}[]>;
 }
 ```
 
@@ -184,13 +161,10 @@ type CodefatherConfig {
 type CodefatherRule {
   /** List of the files or folders that can only be modified by a given list of users */
   match: Array<RegExp | string>;
-  /** List of users authorized to modify the list of files or folders.
-   * name: github username.
-   * emailPrefix: prefix of the user email tied to their Github account (e.g. johnny.fontane@jazz.com should be johnny.fontane) .
-   */
-  goodfellas: GitUser[];
-  /** List of authorized user crews. The crews must be defined at the root of your config when used in CLI mode. */
-  crews?: CrewName[];
+  /** List of users authorized to modify the list of files or folders. */
+  goodfellas: {name: string}[];
+  /** List of authorized user crews (teams). The crews must be defined at the root of your config when used in CLI mode. */
+  crews?: string[];
   /** The message displayed if an unauthorized user tries to modify a protected file. If empty, a random message will be generated. */
   message?: string;
   /** If true, a warning will be issued and the script will not throw an error. False by default. */
@@ -198,40 +172,19 @@ type CodefatherRule {
 }
 ```
 
-> A `GitUser` is a developer in your codebase:
-
-```ts
-type GitUser = {
-  name?: string;
-  emailPrefix?: string;
-};
-```
-
-You can use either the name, the email, or both, depending on your preference. The name should match your GitHub username (e.g. `@tom.hagen`). If you prefer the email, it should also be tied to your Github account. 
-
-For security reasons, only the email prefix is allowed in your config (e.g. `johnny.fontane@jazz.com` should be `johnny.fontane`). 
-
-In CLI mode, the name and email are retrieved from your Git config. You can set them like this:
+The name should match your GitHub username (e.g. `tom.hagen`). In CLI mode, the name is retrieved from your Git config. You can set it like this:
 
 ```bash
  git config --global user.username "DonCorleone"
- git config --global user.email "vito.corleone@nyc.com"
 ```
 
-You can verify the current values like this:
+You can verify the current value like this:
 
 ```bash
 git config user.username # return DonCorleone
-git config user.email # return vito.corleone@nyc.com
 ```
 
 In a Github Action, `codefather` will use Github's API, so you don't have to worry about the git config.
-
-> A `CrewName` is the name of a developers team
-
-```ts
-type CrewName = string;
-```
 
 <hr/>
 
@@ -271,11 +224,13 @@ jobs:
 To enforce reviews from codeowners (goodfellas, caporegimes and crews), consider enabling branch protection in your repository settings. To do it:
 
 - Go to `settings`
-- Click on `Branches`on the left sidebar
+- Click on `Branches` on the left sidebar
 - Select `Add classic branch protection rule`
 - Check 
   - `Require a pull request before merging`
   - `Require approvals`
+  - `Require review from Code Owners`
+  - `Require status checks to pass before merging`
 - You're now under the protection of the Codefather. 
 
 <hr/>
@@ -297,7 +252,7 @@ This being said, if you don't like the gangster movie atmosphere and still want 
 
 ## CREDITS
 
-DoneDeal0 | talk.donedeal0[at]gmail.com
+DoneDeal0 | talk.donedeal0@gmail.com
 
 ## SUPPORT
 

@@ -58,7 +58,7 @@ describe("codefather init script", () => {
     (generateConfigFromCodeowners as jest.Mock).mockImplementation(() => ({
       config: {
         rules: [
-          { match: ["src/models/*"], goodfellas: ["@tomhagen", "solozzo"] },
+          { match: ["src/models/*"], goodfellas: ["tomhagen", "solozzo"] },
         ],
       },
       crews: [],
@@ -83,7 +83,7 @@ describe("codefather init script", () => {
     );
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       configPath,
-      expect.stringContaining("@tomhagen")
+      expect.stringContaining("tomhagen")
     );
 
     expect(mockConsole).toHaveBeenCalledWith(
@@ -107,7 +107,7 @@ describe("codefather init script", () => {
     (generateConfigFromCodeowners as jest.Mock).mockImplementation(() => ({
       config: {
         rules: [
-          { match: ["src/models/*"], goodfellas: ["@tomhagen", "solozzo"] },
+          { match: ["src/models/*"], goodfellas: ["tomhagen", "solozzo"] },
         ],
       },
       crews: ["clemenzaPeople"],

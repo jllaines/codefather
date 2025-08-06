@@ -217,7 +217,7 @@ describe("runGithubCheck", () => {
       codeOwnersPath,
       `
       /src/core @corleone/caporegimes
-      /src/models @tomhagen @solozzo
+      /src/models tomhagen @solozzo
       `
     );
     (loadConfig as jest.Mock).mockResolvedValue({

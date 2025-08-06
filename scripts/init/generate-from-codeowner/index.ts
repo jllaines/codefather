@@ -7,7 +7,16 @@ import {
 } from "@shared/models";
 
 function isCrewOwner(owner: string): owner is CrewName {
-  return owner.includes("/");
+  return owner.startsWith("@") && owner.includes("/");
+}
+
+function getValidCrewName(crew: string): string {
+  const parts = crew.replace(/^@/, "").split("/");
+  return parts.length > 1 ? parts[1] : parts[0] || crew;
+}
+
+function getValidGoodfella(goodfella: string): string {
+  return goodfella.replace(/^@+/, "").split("/")[0] || goodfella;
 }
 
 async function parseCodeowners(filePath: string): Promise<CodefatherRule[]> {
@@ -40,9 +49,9 @@ async function parseCodeowners(filePath: string): Promise<CodefatherRule[]> {
     owners.split(",").forEach((owner) => {
       const validOwner = owner.trim();
       if (isCrewOwner(validOwner)) {
-        crews.push(validOwner);
+        crews.push(getValidCrewName(validOwner));
       } else {
-        goodfellas.push({ name: validOwner });
+        goodfellas.push({ name: getValidGoodfella(validOwner) });
       }
     });
 

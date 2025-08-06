@@ -3,7 +3,6 @@ import { context, getOctokit } from "@actions/github";
 import { GitHub } from "@actions/github/lib/utils";
 import { RestEndpointMethodTypes } from "@octokit/rest";
 import { matchFilesAgainstRule } from "@shared/file-matcher";
-import { getEmailPrefix } from "@shared/formatter";
 import { CodefatherConfig, colorsMap, CrewName, GitUser } from "@shared/models";
 
 type Commits =
@@ -21,23 +20,19 @@ export class Octokit {
 
   private getUniqueCommittersList(commits: Commits): GitUser[] {
     return commits.reduce(
-      (acc, { commit, committer }) => {
+      (acc, { committer }) => {
         const name = committer?.login;
-        const emailPrefix = getEmailPrefix(commit.author?.email);
-        if (!name && !emailPrefix) return acc;
-        const alreadyAdded =
-          acc.nameMap.has(name) || acc.emailMap.has(emailPrefix);
+        if (!name) return acc;
+        const alreadyAdded = acc.nameMap.has(name);
         if (!alreadyAdded) {
-          const committer: GitUser = { name, emailPrefix };
+          const committer: GitUser = { name };
           if (name) acc.nameMap.add(name);
-          if (emailPrefix) acc.emailMap.add(emailPrefix);
           acc.list.push(committer);
         }
         return acc;
       },
       {
         nameMap: new Set(),
-        emailMap: new Set(),
         list: [] as GitUser[],
       }
     ).list;
@@ -60,7 +55,7 @@ export class Octokit {
     const committers = this.getUniqueCommittersList(commitsList as Commits);
     if (committers.length === 0) {
       throw new Error(
-        "𐄂 Couldn’t find email or username in the commit author metadata."
+        "𐄂 Couldn’t find an username in the commit author metadata."
       );
     }
     return committers;
@@ -114,12 +109,8 @@ export class Octokit {
       allReviewers.push(...(rule.goodfellas || []));
     }
     const validReviewers = allReviewers.filter(
-      ({ name, emailPrefix }) =>
-        !committers.some(
-          (committer) =>
-            (name && committer.name === name) ||
-            (emailPrefix && committer.emailPrefix === emailPrefix)
-        )
+      ({ name }) =>
+        !committers.some((committer) => name && committer.name === name)
     );
     const reviewers = [
       ...new Set(validReviewers.map(({ name }) => name).filter(Boolean)),
