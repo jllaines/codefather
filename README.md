@@ -20,7 +20,7 @@
 
 **Codefather** can serve as a drop-in replacement for GitHub’s CODEOWNERS—or play alongside it like a trusted consigliere.
 
-GitHub’s CODEOWNERS lets you define file owners in your codebase and automatically assign them as reviewers. No pull request can be merged until an appropriate codeowner has approved it.
+GitHub’s [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) lets you define file owners in your codebase and automatically assign them as reviewers. No pull request can be merged until an appropriate codeowner has approved it.
 
 **Codefather** offers more flexibility in assigning codeowners: support for various roles (teams, leads, developers), complex file-match rules, local execution, commit protection, and more. It can prevent unauthorized changes, warn developers, list prohibited files with error levels and contact points, block sensitive merges via GitHub Actions, and auto-assign reviewers when needed.
 
@@ -40,6 +40,7 @@ GitHub’s CODEOWNERS lets you define file owners in your codebase and automatic
 |Customizable config  | ✅ | ❌ |
 |Commit blockage | ✅ | ❌ |
 |Godfather vibe  | ✅ | ❌ |
+
 
 ## SCREENSHOTS
 
@@ -66,13 +67,14 @@ npm install @donedeal0/codefather --save-dev
 
 **Codefather** has 3 commands:
 
-- `codefather`: checks if your access rules are respected in your repository
-- `codefather-init`: creates a default config at the root of your repository and add a `codefather` command to your package.json. 
-  - If you have a `.github/CODEOWNERS` file, it will be used to create the config.
-  - It accepts two flags: 
-    - `--json`, to generate a json config file
-    - `--overwrite` to overwrite an existing codefather config.
-- `codefather-github`: similar to the `codefather` command, but designed to run in a GitHub Action environment
+- `codefather`: checks if your access rules are respected in your repository.
+- `codefather-init`: creates a default config at the root of your repository and adds a `codefather` command to your `package.json`. 
+  - If a `.github/CODEOWNERS` file is present, it will be used to generate the config.
+  - Accepts two optional flags:
+    - `json`: generates a json config file instead of a `ts` one.
+    - `overwrite`: overwrite an existing codefather config.
+      - example: `npm run codefather-init json overwrite` 
+- `codefather-github`: similar to `codefather`, but designed to run in a GitHub Action environment
 
 You can either add a script shortcut in your `package.json`:
 
@@ -147,7 +149,7 @@ type CodefatherConfig {
   codeReviews?: {
     /** If true, goodfellas responsible for modified files will be assigned on relevant pull requests, except the committers. Defaults to true. */
     autoAssignGoodfellas: boolean;
-    /** If true, caporegimes will be assigned on every pull request except the committers. Defaults to false. */
+    /** If true, caporegimes will be assigned on every pull request, except the committers. Defaults to false. */
     autoAssignCaporegimes: boolean;
   };
   /** Group users into teams. Crew names and composition are flexible in CLI mode but should match your github teams if used in a Github Action */
@@ -172,7 +174,7 @@ type CodefatherRule {
 }
 ```
 
-The name should match your GitHub username (e.g. `tom.hagen`). In CLI mode, the name is retrieved from your Git config. You can set it like this:
+The name should match your GitHub username (e.g. `tomhagen`). In CLI mode, the name is retrieved from your Git config. You can set it like this:
 
 ```bash
  git config --global user.username "DonCorleone"
@@ -231,7 +233,7 @@ To enforce reviews from codeowners (goodfellas, caporegimes and crews), consider
   - `Require approvals`
   - `Require review from Code Owners`
   - `Require status checks to pass before merging`
-- You're now under the protection of the Codefather. 
+- ✅ You're now under the protection of the Codefather. 
 
 <hr/>
 

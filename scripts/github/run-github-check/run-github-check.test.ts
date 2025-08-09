@@ -212,7 +212,6 @@ describe("runGithubCheck", () => {
     process.env.CI = "true";
     process.env.GITHUB_TOKEN = "token";
     const codeOwnersPath = resolve(process.cwd(), "./.github/CODEOWNERS");
-    console.log("written in", codeOwnersPath);
     writeFileSync(
       codeOwnersPath,
       `

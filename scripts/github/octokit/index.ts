@@ -19,23 +19,18 @@ export class Octokit {
   }
 
   private getUniqueCommittersList(commits: Commits): GitUser[] {
-    return commits.reduce(
-      (acc, { committer }) => {
-        const name = committer?.login;
-        if (!name) return acc;
-        const alreadyAdded = acc.nameMap.has(name);
-        if (!alreadyAdded) {
-          const committer: GitUser = { name };
-          if (name) acc.nameMap.add(name);
-          acc.list.push(committer);
-        }
-        return acc;
-      },
-      {
-        nameMap: new Set(),
-        list: [] as GitUser[],
+    const nameMap = new Set();
+    return commits.reduce((acc, { committer }) => {
+      const name = committer?.login;
+      if (!name) return acc;
+      const alreadyAdded = nameMap.has(name);
+      if (!alreadyAdded) {
+        const committer: GitUser = { name };
+        if (name) nameMap.add(name);
+        acc.push(committer);
       }
-    ).list;
+      return acc;
+    }, [] as GitUser[]);
   }
 
   public async getCommitters(
@@ -55,7 +50,7 @@ export class Octokit {
     const committers = this.getUniqueCommittersList(commitsList as Commits);
     if (committers.length === 0) {
       throw new Error(
-        "𐄂 Couldn’t find an username in the commit author metadata."
+        "𐄂 The username could not be found in the commit author metadata."
       );
     }
     return committers;

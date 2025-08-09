@@ -146,8 +146,8 @@ describe("codefather init script", () => {
     );
   });
 
-  test("creates codefather.json if it does not exist and the --json flag is provided", async () => {
-    process.argv = ["node", "init.js", "--json"];
+  test("creates codefather.json if it does not exist and the json flag is provided", async () => {
+    process.argv = ["node", "init.js", "json"];
     (fs.existsSync as jest.Mock).mockImplementation(
       (p: string) => p === pkgPath
     );
@@ -189,8 +189,8 @@ describe("codefather init script", () => {
     );
   });
 
-  test("overwrites an existing codefather config the --overwrite flag is provided", async () => {
-    process.argv = ["node", "init.js", "--overwrite"];
+  test("overwrites an existing codefather config the overwrite flag is provided", async () => {
+    process.argv = ["node", "init.js", "overwrite"];
     (fs.existsSync as jest.Mock).mockImplementation(() => true);
     (fs.readFileSync as jest.Mock).mockReturnValue(
       JSON.stringify({ scripts: {} }, null, 2)

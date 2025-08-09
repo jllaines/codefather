@@ -42,8 +42,8 @@ Please specify their members in the codefather config for CLI enforcement.`
 export async function runInit() {
   try {
     const args = process.argv.slice(2);
-    const useJson = args.includes("--json");
-    const canOverwrite = args.includes("--overwrite");
+    const useJson = args.includes("json");
+    const canOverwrite = args.includes("overwrite");
     const rootDir = process.cwd();
     const codeownersPath = path.join(rootDir, "./.github/CODEOWNERS");
     let baseConfig: CodefatherConfig = { rules: [] };

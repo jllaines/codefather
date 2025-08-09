@@ -258,7 +258,7 @@ describe("Octokit", () => {
       await octokit.getCommitters(undefined, 88);
     } catch (err) {
       expect(err instanceof Error ? err.message : err).toBe(
-        "𐄂 Couldn’t find an username in the commit author metadata."
+        "𐄂 The username could not be found in the commit author metadata."
       );
     }
   });
