@@ -142,11 +142,7 @@ const messagesMap: Record<MessageType, string[]> = {
 
 function formatUserList(users: GitUser[], type: Intl.ListFormatType): string {
   const usernames = [
-    ...new Set(
-      users
-        .map(({ name, emailPrefix }) => (name || emailPrefix)?.trim())
-        .filter(Boolean)
-    ),
+    ...new Set(users.map(({ name }) => name?.trim()).filter(Boolean)),
   ] as string[];
 
   return new Intl.ListFormat("en", {

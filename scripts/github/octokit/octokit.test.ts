@@ -155,9 +155,7 @@ describe("Octokit", () => {
     }));
     const octokit = Octokit.init();
     const committers = await octokit.getCommitters(88, false);
-    expect(committers).toStrictEqual([
-      { name: "mike", emailPrefix: "michael.corleone" },
-    ]);
+    expect(committers).toStrictEqual([{ name: "mike" }]);
   });
   it("getCommitters - return the username and the prefix of all committers if vouchForAllCommitters is true", async () => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -184,7 +182,7 @@ describe("Octokit", () => {
                     sha: "2",
                     author: { email: "tom.hagen@don.com" },
                   },
-                  committer: { login: "@tomhagen" },
+                  committer: { login: "tomhagen" },
                 },
                 {
                   commit: {
@@ -201,10 +199,7 @@ describe("Octokit", () => {
     }));
     const octokit = Octokit.init();
     const committers = await octokit.getCommitters(88);
-    expect(committers).toStrictEqual([
-      { name: "mike", emailPrefix: "michael.corleone" },
-      { name: "@tomhagen", emailPrefix: "tom.hagen" },
-    ]);
+    expect(committers).toStrictEqual([{ name: "mike" }, { name: "tomhagen" }]);
   });
   it("getCommitters - throw an error if there are no commits", async () => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -263,7 +258,7 @@ describe("Octokit", () => {
       await octokit.getCommitters(undefined, 88);
     } catch (err) {
       expect(err instanceof Error ? err.message : err).toBe(
-        "𐄂 Couldn’t find email or username in the commit author metadata."
+        "𐄂 The username could not be found in the commit author metadata."
       );
     }
   });
@@ -281,24 +276,15 @@ describe("Octokit", () => {
       }),
     }));
     const config: CodefatherConfig = {
-      caporegimes: [
-        { name: "solozzo", emailPrefix: "solozzo" },
-        { name: "@lucabrasi", emailPrefix: "luca.brasi" },
-      ],
+      caporegimes: [{ name: "solozzo" }, { name: "lucabrasi" }],
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [
-            { name: "solozzo", emailPrefix: "solozzo-the-turk" },
-            { name: "@tomhagen", emailPrefix: "tom.hagen" },
-          ],
+          goodfellas: [{ name: "solozzo" }, { name: "tomhagen" }],
         },
         {
           match: ["src/models/**"],
-          goodfellas: [
-            { name: "mike", emailPrefix: "michael.corleone" },
-            { name: "sonny", emailPrefix: "sonny" },
-          ],
+          goodfellas: [{ name: "mike" }, { name: "sonny" }],
         },
       ],
       codeReviews: {
@@ -306,10 +292,7 @@ describe("Octokit", () => {
         autoAssignCaporegimes: false,
       },
     };
-    const committers = [
-      { name: "oldblueeyes", emailPrefix: "johnny.fontane" },
-      { name: "@tom", emailPrefix: "tom.woltz" },
-    ];
+    const committers = [{ name: "oldblueeyes" }, { name: "tom" }];
     const updatedFiles = [resolve(process.cwd(), "src/core/index.ts")];
     const octokit = Octokit.init();
     await octokit.assignReviewers(88, updatedFiles, committers, config);
@@ -317,7 +300,7 @@ describe("Octokit", () => {
       owner: "don",
       repo: "empire",
       pull_number: 88,
-      reviewers: ["solozzo", "@tomhagen"],
+      reviewers: ["solozzo", "tomhagen"],
     });
   });
   it("assignReviewers - assign relevant goodfellas and caporegimes as reviewers if autoAssignCaporegimes is true and don't duplicate reviewers", async () => {
@@ -334,24 +317,15 @@ describe("Octokit", () => {
       }),
     }));
     const config: CodefatherConfig = {
-      caporegimes: [
-        { name: "solozzo", emailPrefix: "solozzo" },
-        { name: "@lucabrasi", emailPrefix: "luca.brasi" },
-      ],
+      caporegimes: [{ name: "solozzo" }, { name: "lucabrasi" }],
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [
-            { name: "solozzo", emailPrefix: "solozzo-the-turk" },
-            { name: "@tomhagen", emailPrefix: "tom.hagen" },
-          ],
+          goodfellas: [{ name: "solozzo" }, { name: "tomhagen" }],
         },
         {
           match: ["src/models/**"],
-          goodfellas: [
-            { name: "mike", emailPrefix: "michael.corleone" },
-            { name: "sonny", emailPrefix: "sonny" },
-          ],
+          goodfellas: [{ name: "mike" }, { name: "sonny" }],
         },
       ],
       codeReviews: {
@@ -359,10 +333,7 @@ describe("Octokit", () => {
         autoAssignCaporegimes: true,
       },
     };
-    const committers = [
-      { name: "oldblueeyes", emailPrefix: "johnny.fontane" },
-      { name: "@tom", emailPrefix: "tom.woltz" },
-    ];
+    const committers = [{ name: "oldblueeyes" }, { name: "tom" }];
     const updatedFiles = [resolve(process.cwd(), "src/core/index.ts")];
     const octokit = Octokit.init();
     await octokit.assignReviewers(88, updatedFiles, committers, config);
@@ -370,7 +341,7 @@ describe("Octokit", () => {
       owner: "don",
       repo: "empire",
       pull_number: 88,
-      reviewers: ["solozzo", "@lucabrasi", "@tomhagen"],
+      reviewers: ["solozzo", "lucabrasi", "tomhagen"],
     });
   });
   it("assignReviewers - assign a crew as reviewer", async () => {
@@ -387,25 +358,16 @@ describe("Octokit", () => {
       }),
     }));
     const config: CodefatherConfig = {
-      caporegimes: [
-        { name: "solozzo", emailPrefix: "solozzo" },
-        { name: "@lucabrasi", emailPrefix: "luca.brasi" },
-      ],
+      caporegimes: [{ name: "solozzo" }, { name: "lucabrasi" }],
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [
-            { name: "solozzo", emailPrefix: "solozzo-the-turk" },
-            { name: "@tomhagen", emailPrefix: "tom.hagen" },
-          ],
+          goodfellas: [{ name: "solozzo" }, { name: "tomhagen" }],
           crews: ["clemenzaPeople"],
         },
         {
           match: ["src/models/**"],
-          goodfellas: [
-            { name: "mike", emailPrefix: "michael.corleone" },
-            { name: "sonny", emailPrefix: "sonny" },
-          ],
+          goodfellas: [{ name: "mike" }, { name: "sonny" }],
         },
       ],
       codeReviews: {
@@ -413,10 +375,10 @@ describe("Octokit", () => {
         autoAssignCaporegimes: true,
       },
       crews: {
-        clemenzaPeople: [{ name: "@paulieGatto" }, { name: "@lucabrasi" }],
+        clemenzaPeople: [{ name: "paulieGatto" }, { name: "lucabrasi" }],
       },
     };
-    const committers = [{ name: "oldblueeyes", emailPrefix: "johnny.fontane" }];
+    const committers = [{ name: "oldblueeyes" }];
     const updatedFiles = [resolve(process.cwd(), "src/core/index.ts")];
     const octokit = Octokit.init();
     await octokit.assignReviewers(88, updatedFiles, committers, config);
@@ -424,7 +386,7 @@ describe("Octokit", () => {
       owner: "don",
       repo: "empire",
       pull_number: 88,
-      reviewers: ["solozzo", "@lucabrasi", "@tomhagen"],
+      reviewers: ["solozzo", "lucabrasi", "tomhagen"],
       team_reviewers: ["clemenzaPeople"],
     });
   });
@@ -442,25 +404,19 @@ describe("Octokit", () => {
       }),
     }));
     const config: CodefatherConfig = {
-      caporegimes: [
-        { name: "solozzo", emailPrefix: "solozzo" },
-        { name: "@lucabrasi", emailPrefix: "luca.brasi" },
-      ],
+      caporegimes: [{ name: "solozzo" }, { name: "lucabrasi" }],
       rules: [
         {
           match: ["src/core/**"],
           goodfellas: [
-            { name: "oldblueeyes", emailPrefix: "johnny.fontane" },
-            { name: "solozzo", emailPrefix: "solozzo-the-turk" },
-            { name: "@tomhagen", emailPrefix: "tom.hagen" },
+            { name: "oldblueeyes" },
+            { name: "solozzo" },
+            { name: "tomhagen" },
           ],
         },
         {
           match: ["src/models/**"],
-          goodfellas: [
-            { name: "mike", emailPrefix: "michael.corleone" },
-            { name: "sonny", emailPrefix: "sonny" },
-          ],
+          goodfellas: [{ name: "mike" }, { name: "sonny" }],
         },
       ],
       codeReviews: {
@@ -469,9 +425,9 @@ describe("Octokit", () => {
       },
     };
     const committers = [
-      { name: "oldblueeyes", emailPrefix: "johnny.fontane" },
-      { name: "@lucabrasi", emailPrefix: "luca.brasi" },
-      { name: "@tom", emailPrefix: "tom.woltz" },
+      { name: "oldblueeyes" },
+      { name: "lucabrasi" },
+      { name: "tom" },
     ];
     const updatedFiles = [resolve(process.cwd(), "src/core/index.ts")];
     const octokit = Octokit.init();
@@ -480,7 +436,7 @@ describe("Octokit", () => {
       owner: "don",
       repo: "empire",
       pull_number: 88,
-      reviewers: ["solozzo", "@tomhagen"],
+      reviewers: ["solozzo", "tomhagen"],
     });
   });
   it("assignReviewers - assign reviewers across multiple rules", async () => {
@@ -497,31 +453,25 @@ describe("Octokit", () => {
       }),
     }));
     const config: CodefatherConfig = {
-      caporegimes: [
-        { name: "solozzo", emailPrefix: "solozzo" },
-        { name: "@lucabrasi", emailPrefix: "luca.brasi" },
-      ],
+      caporegimes: [{ name: "solozzo" }, { name: "lucabrasi" }],
       rules: [
         {
           match: ["src/core/**"],
           goodfellas: [
-            { name: "oldblueeyes", emailPrefix: "johnny.fontane" },
-            { name: "solozzo", emailPrefix: "solozzo-the-turk" },
-            { name: "@tomhagen", emailPrefix: "tom.hagen" },
+            { name: "oldblueeyes" },
+            { name: "solozzo" },
+            { name: "tomhagen" },
           ],
           crews: ["clemenzaPeople", "tessioTeam"],
         },
         {
           match: ["src/models/**"],
-          goodfellas: [
-            { name: "mike", emailPrefix: "michael.corleone" },
-            { name: "sonny", emailPrefix: "sonny" },
-          ],
+          goodfellas: [{ name: "mike" }, { name: "sonny" }],
           crews: ["tessioTeam"],
         },
         {
           match: ["src/utils/**"],
-          goodfellas: [{ name: "@tom", emailPrefix: "tom.woltz" }],
+          goodfellas: [{ name: "tom" }],
         },
       ],
       codeReviews: {
@@ -529,11 +479,11 @@ describe("Octokit", () => {
         autoAssignCaporegimes: false,
       },
       crews: {
-        clemenzaPeople: [{ name: "@paulieGatto" }, { name: "@lucabrasi" }],
+        clemenzaPeople: [{ name: "paulieGatto" }, { name: "lucabrasi" }],
         tessioTeam: [{ name: "salvatore" }],
       },
     };
-    const committers = [{ name: "fredo", emailPrefix: "frederico.corleone" }];
+    const committers = [{ name: "fredo" }];
     const updatedFiles = [
       resolve(process.cwd(), "src/core/index.ts"),
       resolve(process.cwd(), "src/models/message.ts"),
@@ -544,7 +494,7 @@ describe("Octokit", () => {
       owner: "don",
       repo: "empire",
       pull_number: 88,
-      reviewers: ["oldblueeyes", "solozzo", "@tomhagen", "mike", "sonny"],
+      reviewers: ["oldblueeyes", "solozzo", "tomhagen", "mike", "sonny"],
       team_reviewers: ["clemenzaPeople", "tessioTeam"],
     });
   });
@@ -562,24 +512,15 @@ describe("Octokit", () => {
       }),
     }));
     const config: CodefatherConfig = {
-      caporegimes: [
-        { name: "solozzo", emailPrefix: "solozzo" },
-        { name: "@lucabrasi", emailPrefix: "luca.brasi" },
-      ],
+      caporegimes: [{ name: "solozzo" }, { name: "lucabrasi" }],
       rules: [
         {
           match: ["src/core/**"],
-          goodfellas: [
-            { name: "solozzo", emailPrefix: "solozzo-the-turk" },
-            { name: "@tomhagen", emailPrefix: "tom.hagen" },
-          ],
+          goodfellas: [{ name: "solozzo" }, { name: "tomhagen" }],
         },
         {
           match: ["src/models/**"],
-          goodfellas: [
-            { name: "mike", emailPrefix: "michael.corleone" },
-            { name: "sonny", emailPrefix: "sonny" },
-          ],
+          goodfellas: [{ name: "mike" }, { name: "sonny" }],
         },
       ],
       codeReviews: {
@@ -587,10 +528,7 @@ describe("Octokit", () => {
         autoAssignCaporegimes: false,
       },
     };
-    const committers = [
-      { name: "oldblueeyes", emailPrefix: "johnny.fontane" },
-      { name: "@tom", emailPrefix: "tom.woltz" },
-    ];
+    const committers = [{ name: "oldblueeyes" }, { name: "tom" }];
     const updatedFiles = [
       resolve(process.cwd(), "src/utils/index.ts"),
       resolve(process.cwd(), ".env"),

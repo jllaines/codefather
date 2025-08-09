@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { showDonAscii } from "@shared/ascii/don";
 import { validateFiles } from "@shared/file-validator";
 import { loadConfig } from "@shared/loader";
@@ -34,7 +36,14 @@ export async function runGithubCheck() {
     const results = validateFiles(files, committers, config);
 
     const addReviewers = config.codeReviews?.autoAssignGoodfellas ?? true;
-    if (addReviewers || !!config.codeReviews?.autoAssignCaporegimes) {
+    const hasCodeownersFile = fs.existsSync(
+      path.resolve(process.cwd(), "./.github/CODEOWNERS")
+    );
+
+    if (
+      !hasCodeownersFile &&
+      (addReviewers || !!config.codeReviews?.autoAssignCaporegimes)
+    ) {
       await octokit.assignReviewers(pullRequestID, files, committers, config);
     }
 
