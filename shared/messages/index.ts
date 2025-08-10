@@ -50,7 +50,6 @@ const sharedErrors = [
   "𐄂 _committers_: That commit screams betrayal. _goodfellas_ heard it loud and clear.",
   "𐄂 _committers_: You broke something built on trust. Now it needs fixing.",
   "𐄂 _committers_, this act smells like ambition. Careful—ambition got Fredo killed.",
-  "𐄂 _committers_: You messed up. Big. _goodfellas_ are already talking.",
   "𐄂 _committers_: You acted like a enemy. We don’t deal with enemies.",
   "𐄂 _committers_: That move lacked honor. Fix it or fade out.",
   "𐄂 _committers_: You weren’t subtle. You weren’t careful. Call _goodfella_ to clear things out.",
@@ -75,10 +74,12 @@ const messagesMap: Record<MessageType, string[]> = {
   ],
   [MessageType.Error]: [
     "𐄂 _committers_! You need permission from my trusted associate: _goodfellas_. Nobody touches this without approval.",
+    "𐄂 _committers_: You messed up. Big. _goodfellas_ is already talking.",
     ...sharedErrors,
   ],
   [MessageType.MultiErrors]: [
     "𐄂 _committers_! You need permission from my trusted associates: _goodfellas_. Nobody touches this without approval.",
+    "𐄂 _committers_: You messed up. Big. _goodfellas_ are already talking.",
     ...sharedErrors,
   ],
   [MessageType.Warning]: [

@@ -33,7 +33,7 @@ function informFileCreated(
         `- The following crews were detected:\n${crews
           .map((crew) => `   - ${crew}`)
           .join("\n")}
-Please specify their members in the codefather config for CLI enforcement.`
+\n⚙️ Please specify their members in the codefather config for CLI enforcement.\n`
       );
     }
   }

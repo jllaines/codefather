@@ -5,7 +5,13 @@ const normalizePath = (filePath: string) => filePath.replace(/\\/g, "/");
 
 function globToRegExp(glob: string | RegExp): RegExp {
   if (glob instanceof RegExp) return glob;
-  const escaped = glob
+
+  let normalizedGlob = normalizePath(glob.trim().replace(/^\.?\/+/, ""));
+
+  // Auto-expand trailing slash to recursive match
+  if (normalizedGlob.endsWith("/")) normalizedGlob += "**";
+
+  const escaped = normalizedGlob
     .replace(/[.+^${}()|[\]\\]/g, "\\$&")
     .replace(/\*\*/g, "§§")
     .replace(/\*/g, "[^/]*")
@@ -22,7 +28,7 @@ export function matchFilesAgainstRule(
   const regexes = rulePattern.map(globToRegExp);
   const normalizedRootDir = normalizePath(rootDir);
   return files.filter((file) => {
-    const normalizedFile = normalizePath(file);
+    const normalizedFile = normalizePath(file.trim());
     const relativePath = normalizePath(
       relative(normalizedRootDir, normalizedFile)
     );

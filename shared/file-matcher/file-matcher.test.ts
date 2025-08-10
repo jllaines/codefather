@@ -109,4 +109,69 @@ describe("matchFilesAgainstRule", () => {
     const matched = matchFilesAgainstRule([file], rule.match, configRoot);
     expect(matched).toContain(file);
   });
+  test("matches rule with leading slash", () => {
+    const result = matchFilesAgainstRule(updatedFiles, ["/src/core/**"], root);
+    expect(result).toEqual([resolve("project/src/core/index.ts")]);
+  });
+  test("matches rule with trailing slash", () => {
+    const result = matchFilesAgainstRule(
+      updatedFiles,
+      ["src/core/"], // Should auto-expand to src/core/**
+      root
+    );
+    expect(result).toEqual([resolve("project/src/core/index.ts")]);
+  });
+  test("matches rule with whitespace", () => {
+    const result = matchFilesAgainstRule(
+      updatedFiles,
+      ["  src/core/**  "],
+      root
+    );
+    expect(result).toEqual([resolve("project/src/core/index.ts")]);
+  });
+  test("matches dotfiles", () => {
+    const result = matchFilesAgainstRule(updatedFiles, [".env"], root);
+    expect(result).toEqual([resolve("project/.env")]);
+  });
+  test("matches deeply nested file", () => {
+    const result = matchFilesAgainstRule(
+      updatedFiles,
+      ["src/models/searches/**"],
+      root
+    );
+    expect(result).toEqual([resolve("project/src/models/searches/utils.ts")]);
+  });
+  test("matches pattern starting with ./", () => {
+    const result = matchFilesAgainstRule(updatedFiles, ["./src/core/**"], root);
+    expect(result).toEqual([resolve("project/src/core/index.ts")]);
+  });
+  test("matches pattern ending with /**/", () => {
+    const result = matchFilesAgainstRule(updatedFiles, ["src/**/"], root);
+    expect(result).toContain(resolve("project/src/core/index.ts"));
+    expect(result).toContain(resolve("project/src/utils/helpers.ts"));
+    expect(result).toContain(resolve("project/src/models/searches/utils.ts"));
+  });
+  test("matches pattern with regex metacharacters in path", () => {
+    const specialFiles = [
+      resolve("project/src/utils/file[1].ts"),
+      resolve("project/src/utils/file(2).ts"),
+    ];
+    const result = matchFilesAgainstRule(specialFiles, ["src/utils/**"], root);
+    expect(result).toEqual(specialFiles);
+  });
+  test("matches hidden file in subdirectory", () => {
+    const hiddenFile = resolve("project/src/.hidden/config.ts");
+    const result = matchFilesAgainstRule([hiddenFile], ["src/**"], root);
+    expect(result).toEqual([hiddenFile]);
+  });
+  test("matches file with unicode characters in path", () => {
+    const unicodeFile = resolve("project/src/设计/模块.ts");
+    const result = matchFilesAgainstRule([unicodeFile], ["src/**"], root);
+    expect(result).toEqual([unicodeFile]);
+  });
+  test("matches file with spaces and parentheses in path", () => {
+    const spacedFile = resolve("project/src/utils/my file (copy).ts");
+    const result = matchFilesAgainstRule([spacedFile], ["src/utils/**"], root);
+    expect(result).toEqual([spacedFile]);
+  });
 });

@@ -10,7 +10,7 @@ export function getLocalGitUser(): GitUser {
     if (!name) {
       throw new Error();
     }
-    return { name };
+    return { name: name.trim().replaceAll("\n", "") };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_: unknown) {
     throw new Error(getRandomMessage(MessageType.NoGitConfig));
