@@ -22,6 +22,13 @@ describe("getLocalGitUser", () => {
     expect(getLocalGitUser()).toEqual({ name: "tomhagen" });
   });
 
+  it("returns an user with a trimmed username", () => {
+    (execSync as jest.Mock).mockReturnValueOnce("tomhagen ");
+    expect(getLocalGitUser()).toEqual({ name: "tomhagen" });
+    (execSync as jest.Mock).mockReturnValueOnce("tomhagen\n\n");
+    expect(getLocalGitUser()).toEqual({ name: "tomhagen" });
+  });
+
   it("throws an error if execSync fails", () => {
     (execSync as jest.Mock).mockImplementationOnce(() => {
       throw new Error();
