@@ -1,9 +1,10 @@
+import { transform } from "esbuild";
 import fs from "fs";
 import path from "path";
-import { pathToFileURL } from "url";
 import { getRandomMessage } from "@shared/messages";
 import { MessageType, type CodefatherConfig } from "@shared/models";
 import { safeJSONParse } from "@shared/parser";
+import { importDataBuffer } from "./import-data-buffer";
 
 export async function loadConfig(): Promise<CodefatherConfig> {
   try {
@@ -13,9 +14,13 @@ export async function loadConfig(): Promise<CodefatherConfig> {
     const jsonPath = path.resolve(root, "codefather.json");
 
     if (fs.existsSync(tsPath)) {
-      const { register } = await import("tsx/esm/api");
-      register();
-      const config = await import(pathToFileURL(tsPath).href);
+      const tsCode = fs.readFileSync(tsPath, "utf-8");
+      const { code } = await transform(tsCode, {
+        loader: "ts",
+        format: "esm",
+      });
+      const dataUrl = `data:text/javascript;base64,${Buffer.from(code).toString("base64")}`;
+      const config = await importDataBuffer(dataUrl);
       // a typescript file import may have several 'default' levels depending on the environment
       return config?.default?.default || config?.default || config;
     }

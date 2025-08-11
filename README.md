@@ -1,4 +1,4 @@
-<img width="1003" height="377" alt="banner" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/banner_cjwgin.png" />
+<img width="1003" height="377" alt="banner" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1755025208/codfather_corrected_af9prv.png" />
 
 
 [![CI](https://github.com/DoneDeal0/codefather/actions/workflows/ci.yml/badge.svg)](https://github.com/DoneDeal0/codefather/actions/workflows/ci.yml)
@@ -72,7 +72,7 @@ npm install @donedeal0/codefather --save-dev
   - If a `.github/CODEOWNERS` file is present, it will be used to generate the config.
   - Accepts two optional flags:
     - `json`: generates a json config file instead of a `ts` one.
-    - `overwrite`: overwrite an existing codefather config.
+    - `overwrite`: overwrites an existing codefather config.
       - example: `npm run codefather-init json overwrite` 
 - `codefather-github`: similar to `codefather`, but designed to run in a GitHub Action environment
 
@@ -87,8 +87,8 @@ You can either add a script shortcut in your `package.json`:
 Or directly run the commands with `npx`:
 
 ```bash
-npx codefather
 npx codefather-init
+npx codefather
 ```
 
 ## CONFIG
@@ -187,6 +187,18 @@ git config user.username # return DonCorleone
 ```
 
 In a Github Action, `codefather` will use Github's API, so you don't have to worry about the git config.
+
+## How to Write Rules
+
+- Match all files in a folder (recursively): `src/myfolder/`
+- Match a specific file: `src/myfolder/file.ts`
+- Match files by extension in a folder (glob): `src/folder/*.css`
+- Match files by extension in a folder (regex): `/^src\/folder\/.*\.css$/`
+- Match any file in any subfolder: `src/**`
+- Match dotfiles: `.env`
+- Use `*` for single-level matches, `**` for recursive matches
+
+ℹ️ *More examples are available in the test files. Codefather's matching patterns follow classic file matcher rules, like GitHub CODEOWNERS.*
 
 <hr/>
 
